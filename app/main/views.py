@@ -1,9 +1,21 @@
 # encoding=utf-8
-from flask import request,url_for
+from flask import request,url_for,render_template
 from .. import db
 from . import main
 
 
 @main.route('/')
 def index():
-    return '<h1>你好</h1>'
+    return render_template('index.html')
+
+@main.route('/post/<int:id>')
+def post(id):
+    return render_template('post.html')
+
+# @main.route('/register',methods=['GET','POST'])
+# def register():
+#     return render_template('register.html')
+
+@main.route('/info')
+def info():
+    return render_template('edit_info.html')

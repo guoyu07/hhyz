@@ -1,0 +1,13 @@
+{% macro error_message(form) %}
+    {% if form.errors %}
+        {{ form.errors.values()[0][0] }}
+    {% endif %}
+{% endmacro %}
+
+{% macro input_value(field) %}
+    {% if field.data!=None %}
+        {{ field.data }}
+    {% else %}
+        {{ '' }}
+    {% endif %}
+{% endmacro %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p class="flash">{{ get_flashed_messages()[0] }}&nbsp;&nbsp;点击<a href={{ url_for('main.index') }}>这里</a>返回首页</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

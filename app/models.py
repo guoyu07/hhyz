@@ -4,15 +4,25 @@ from . import db
 from flask import request,url_for,current_app
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask.ext.login import UserMixin,AnonymousUserMixin
+class Permission:
+    COMMENT = 0x01#发表评论权限
+    MODERATE_ARTICLES = 0x02#修改文章权限
+    MODERATE_COMMENTS = 0x04#修改评论权限
+    ADMINISTER = 0x80#管理员权限
+
+UserPost = db.Table('user_post',
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('post_id', db.Integer, db.ForeignKey('posts.id'))
+)
 class User(db.Model,UserMixin):
     __tablename__='users'
     id=db.Column(db.Integer,primary_key=True)
     username=db.Column(db.String(64),unique=True,index=True)#用户名,不可更改,唯一
-    email=db.String(db.String(64),index=True)#邮箱,不可更改,唯一
+    email=db.Column(db.String(64),unique=True,index=True)#邮箱,不可更改,唯一
     password_hash=db.Column(db.String(64))#密码的哈希
     permission=db.Column(db.Integer,default=Permission.COMMENT)#用户的权限
     role_id=db.Column(db.Integer,db.ForeignKey('roles.id'))#角色ID
-    name=db.Column(db.String(64),default=username)#昵称
+    name=db.Column(db.String(64))#昵称
     phone=db.Column(db.String(13))#电话
     gender=db.Column(db.Integer,default=1)#性别
     age=db.Column(db.Integer)#年龄
@@ -21,12 +31,27 @@ class User(db.Model,UserMixin):
     avatar=db.Column(db.String(255))#头像路径
     member_since=db.Column(db.DateTime,default=datetime.utcnow)#注册时间
     last_seen=db.Column(db.DateTime,default=datetime.utcnow)#最后登录时间
-    collect=db.relationship('Post',lazy='dynamic')#收藏
+    collects=db.relationship('Post',secondary=UserPost,backref=db.backref('users', lazy='dynamic'))#收藏
     comments=db.relationship('Comment',backref='author',lazy='dynamic')#评论
     disabled=db.Column(db.Boolean,default=False)#状态不可用
 
+    #设置密码
+    @property
+    def password(self):
+        return AttributeError('获取密码不合法')
+    @password.setter
+    def password(self,password):
+        self.password_hash=generate_password_hash(password)
+    #进行密码核对
+    def verify_password(self,password):
+        return check_password_hash(self.password_hash,password)
+    # 生成token进行激活
+    def generate_confirmation_token(self):
+        pass
     def __init__(self,*args,**kwargs):
         super(User,self).__init__(*args,**kwargs)
+
+
     def is_authenticated(self):
         pass
     def is_active(self):
@@ -75,7 +100,7 @@ class Post(db.Model):
     tags=db.Column(db.String)#标签(字符串)
     timestamp=db.Column(db.DateTime,default=datetime.utcnow)#时间戳
     link=db.Column(db.String)#直达链接
-    comments=db.relationship('Comment',backref='author',lazy='dynamic')#评论
+    comments=db.relationship('Comment',lazy='dynamic')#评论
     content=db.Column(db.Text)#内容
     disabled=db.Column(db.Boolean,default=False)#状态不可用
     categories=db.Column(db.String)#分类
@@ -87,22 +112,21 @@ class Post(db.Model):
 
 class Comment(db.Model):
     __tablename__='comments'
+    id=db.Column(db.Integer,primary_key=True)
     content=db.column(db.Text)#评论内容
     timestamp=db.Column(db.DateTime,default=datetime.utcnow)#时间戳
     up=db.Column(db.Integer)#顶的数量
     down=db.Column(db.Integer)#踩的数量
     disabled=db.Column(db.Boolean,default=False)#状态不可用
     parent=db.relationship('Comment',uselist=False)
+    parent_id=db.Column(db.Integer,db.ForeignKey('comments.id'))
+    post_id=db.Column(db.Integer,db.ForeignKey('posts.id'))
+    user_id=db.Column(db.Integer,db.ForeignKey('users.id'))
     def __init__(self,*args,**kwargs):
         super(Comment,self).__init__(*args,**kwargs)
     def __repr__(self):
         return '<Comment %r>' % self.content
 
 
-class Permission:
-    COMMENT = 0x01#发表评论权限
-    MODERATE_ARTICLES = 0x02#修改文章权限
-    MODERATE_COMMENTS = 0x04#修改评论权限
-    ADMINISTER = 0x80#管理员权限
 
 

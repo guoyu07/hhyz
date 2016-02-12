@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as tools %}
+{% block title %}好货驿站--注册{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>注册</h3>
+                        <hr>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <form method="post" href="{{ url_for('auth.register') }}">
+                            {{ form.csrf_token }}
+                            <div class="row margin-top-1">
+                                <div class="col-md-3 col-md-offset-4">
+                                    {{ form.username(placeholder="用户名",class='form-control input-sm register-content') }}
+                                </div>
+                                <div class="col-md-2"><label class="register-tag">不能为空</label></div>
+                            </div>
+                            <div class="row margin-top-1">
+                                <div class="col-md-3 col-md-offset-4">
+                                    {{ form.email(placeholder="邮箱",class='form-control input-sm register-content') }}
+                                </div>
+                                <div class="col-md-2"><label class="register-tag">不能为空</label></div>
+                            </div>
+                            <div class="row margin-top-1">
+                                <div class="col-md-3 col-md-offset-4">
+                                    {{ form.password(placeholder="密码",class='form-control input-sm register-content') }}
+                                </div>
+                                <div class="col-md-2"><label class="register-tag">不能为空</label></div>
+                            </div>
+                            <div class="row margin-top-1">
+                                <div class="col-md-3 col-md-offset-4">
+                                    {{ form.password2(placeholder="确认密码",class='form-control input-sm register-content') }}
+                                </div>
+                                <div class="col-md-2"><label class="register-tag">不能为空</label></div>
+                            </div>
+                            <div class="row margin-top-1">
+                                <div class="col-md-3 col-md-offset-4">
+                                    {{ form.name(placeholder="用户昵称",class='form-control input-sm register-content') }}
+                                </div>
+                                <div class="col-md-2"><label class="register-tag">不能为空</label></div>
+                            </div>
+                            <div class="row margin-top-1">
+                                <div class="col-md-1 col-md-offset-4">
+                                    {{ form.verification(placeholder="验证码",class='form-control input-sm register-content') }}
+                                </div>
+                                <div class="col-md-1">
+                                    <input class="form-control input-sm" placeholder="" type="text" value="1234"/>
+                                </div>
+                                <div class="col-md-2"><label class="register-tag">不能为空</label></div>
+                            </div>
+                            <div class="row margin-top-1">
+                                <div class="col-md-6 col-md-offset-4">
+                                    {{ form.agreement(id='protocol',class=' register-content custom-checkbox',checked="true") }}
+                                    <label for="protocol" >同意用户协议</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-11">
+                                    <div class="register-tag center-txt" style="{% if form.errors %} {{ 'display:block' }}{% endif %}">
+                                        {% if form %}
+                                            {{ tools.error_message(form) }}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row margin-top-1">
+                                <div class="col-md-11">
+                                    {{ form.submit(value='注册',class="btn btn-primary btn-group-lg center-h" ) }}
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

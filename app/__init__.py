@@ -6,7 +6,6 @@ from flask.ext.pagedown import PageDown
 from flask.ext.bootstrap import Bootstrap
 from config import config
 
-
 db=SQLAlchemy()
 mail=Mail()
 pagedown=PageDown()
@@ -24,6 +23,7 @@ def create_app(config_name):
     pagedown.init_app(app)
     bootstrap.init_app(app)
     login_manager.init_app(app)
+    db.init_app(app)
 
     # if not app.debug and not app.testing and not app.config['SSL_DISABLE']:
     #     from flask.ext.sslify import SSLify
