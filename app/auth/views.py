@@ -8,15 +8,17 @@ from flask.ext.login import login_required,login_user,logout_user
 from forms import RegisterForm,LoginForm
 from ..models import User
 from ..email import send_email
-@auth.route('/login')
+@auth.route('/login',methods=['GET','POST'])
 def login():
     form=LoginForm()
     if form.validate_on_submit():
-        user=User.query.filter_by(username=form.username)
-        if user is not None and user.verify_password(form.password):
+        print form.username.data
+        user=User.query.filter_by(username=form.username.data).first()
+        print user
+        if user is not None and user.verify_password(form.password.data):
             login_user(user,form.remember_me.data)
             return 'true'
-    return 'false'
+    return render_template('auth/login.html',form=form)
 @auth.route('/register',methods=['GET','POST'])
 def register():
     form=RegisterForm()

@@ -1,0 +1,53 @@
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    用户登陆
+                </h4>
+            </div>
+            <div class="modal-body">
+                {{ form.csrf_token(id='login_csrf_token') }}
+                <div class="row">
+                    <label class="col-md-2 col-md-offset-1">
+                        用户名:
+                    </label>
+                    <div class="col-md-8">
+                        <input class="form-control input-sm" placeholder="用户名" id="login_username" type="text"/>
+                    </div>
+                </div>
+                <div class="row margin-top-2">
+                    <label class="col-md-2 col-md-offset-1">
+                        密码:
+                    </label>
+                    <div class="col-md-8">
+                        <input class="form-control input-sm" placeholder="密码" id="login_password" type="password"/>
+                    </div>
+                </div>
+                <div class="row margin-top-2">
+                    <div class="col-md-3 col-md-offset-1">
+                        <input type="checkbox" class="custom-checkbox" id="login_remember_me"/>
+                        <label>记住登陆</label>
+                    </div>
+                    <div class="col-md-6 col-md-offset-1">
+                        <span id="login_info" class="register-tag center-txt">用户名或者密码错误</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary" id="login_btn">
+                    登陆
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>

@@ -2,6 +2,7 @@
 from flask import request,url_for,render_template
 from .. import db
 from . import main
+from ..auth.forms import LoginForm
 
 
 @main.route('/')
