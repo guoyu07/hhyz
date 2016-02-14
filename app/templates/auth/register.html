@@ -50,7 +50,7 @@
                                     {{ form.verification(placeholder="验证码",class='form-control input-sm register-content') }}
                                 </div>
                                 <div class="col-md-1">
-                                    <input class="form-control input-sm" placeholder="" type="text" value="1234"/>
+                                    <img  src="{{ url_for('auth.authcode') }}" width="100" height="35" id="register_auth_code"/>
                                 </div>
                                 <div class="col-md-2"><label class="register-tag">不能为空</label></div>
                             </div>
@@ -79,6 +79,5 @@
                 </div>
             </div>
         </div>
-
     </div>
 {% endblock %}

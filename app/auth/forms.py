@@ -4,6 +4,7 @@ from flask_wtf import Form
 from wtforms import StringField,PasswordField,BooleanField,SubmitField,ValidationError
 from wtforms.validators import Required,Length,EqualTo,Email,InputRequired
 from ..models import User
+from flask import session
 # 登陆表单
 class LoginForm(Form):
     username=StringField(u'用户名',validators=[InputRequired(message=u'用户名不能为空'),Length(6,64,message=u'用户名长度必须在6到64之间')])
@@ -29,3 +30,7 @@ class RegisterForm(Form):
     def validate_username(self,field):
         if User.query.filter_by(username=field.data).first():
             raise ValidationError(message=u'用户名已存在')
+    def validate_verification(self,field):
+        print session['auth_code']
+        if session['auth_code'].lower()!=field.data.lower():
+            raise ValidationError(message=u'验证码错误')

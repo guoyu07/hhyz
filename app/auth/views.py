@@ -1,9 +1,10 @@
 # encoding=utf-8
 import logging
-from flask import request,url_for
+import io
 from .. import db
 from . import auth
-from flask import render_template,request,url_for,flash,redirect
+from code import AuthCode
+from flask import render_template,request,url_for,flash,redirect,Response,session,send_file
 from flask.ext.login import login_required,login_user,logout_user
 from forms import RegisterForm,LoginForm
 from ..models import User
@@ -37,4 +38,11 @@ def register():
 @auth.route('/register_success')
 def register_success():
     return render_template('auth/register_success.html')
-
+@auth.route('/authcode')
+def authcode():
+    auth_code,auth_image=AuthCode().get_data()
+    session['auth_code']=auth_code
+    out_put=io.BytesIO()
+    auth_image.save(out_put,format='JPEG')
+    out_put.seek(0)
+    return send_file(out_put,mimetype='image/png')

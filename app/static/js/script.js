@@ -120,4 +120,8 @@ $(function ($) {
             });
         });
     }, 'html')
+
+    $('#register_auth_code').click(function () {
+        $('#register_auth_code').attr('src','/auth/authcode?nums='+Math.random())
+    });
 });
