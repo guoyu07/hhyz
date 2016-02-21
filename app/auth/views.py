@@ -4,7 +4,7 @@ import io
 from .. import db
 from . import auth
 from code import AuthCode
-from flask import render_template,request,url_for,flash,redirect,Response,session,send_file
+from flask import render_template,request,url_for,flash,redirect,Response,session,send_file,jsonify
 from flask.ext.login import login_required,login_user,logout_user
 from forms import RegisterForm,LoginForm
 from ..models import User
@@ -12,13 +12,24 @@ from ..email import send_email
 @auth.route('/login',methods=['GET','POST'])
 def login():
     form=LoginForm()
+    if session.get('login_num')==None:
+        session['login_num']=1
+    elif not session.get('can_show_auth_code'):
+        session['login_num']+=1
+        if session['login_num']>=5:
+            session['can_show_auth_code']=True
+
     if form.validate_on_submit():
-        print form.username.data
         user=User.query.filter_by(username=form.username.data).first()
-        print user
         if user is not None and user.verify_password(form.password.data):
             login_user(user,form.remember_me.data)
-            return 'true'
+            return jsonify({'success':True})
+        else:
+            show_auth=False
+            if session['login_num']>4:
+                show_auth=True
+            return jsonify({'success':False,'show_auth':show_auth})
+    print form.errors
     return render_template('auth/login.html',form=form)
 @auth.route('/register',methods=['GET','POST'])
 def register():
@@ -46,3 +57,12 @@ def authcode():
     auth_image.save(out_put,format='JPEG')
     out_put.seek(0)
     return send_file(out_put,mimetype='image/png')
+@auth.route('/collect')
+def collect():
+    pass
+@auth.route('/info')
+def info():
+    pass
+@auth.route('/logout')
+def logout():
+    pass

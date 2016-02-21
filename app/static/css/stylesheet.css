@@ -1,5 +1,19 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
 body {
     font-size: 14px;
+    margin-bottom: 80px;
+}
+
+body > .container {
+    padding: 80px 60px 0;
+}
+
+a:link,a:visited,a:hover {
+    text-decoration: none;
 }
 
 .navgation {
@@ -7,15 +21,17 @@ body {
 }
 
 .footer {
-    background-color: #ecf0f1;
-    position: relative;
-    bottom: 0px;
+    background-color: #e7e7e7;
+    position: absolute;
     width: 100%;
-
+    padding: 10px;
+    bottom: 0px;
 }
+
 .icon {
 
 }
+
 .list {
     margin-top: 20px;
 }
@@ -25,6 +41,7 @@ body {
     font-size: 20px;
     /*margin-left: 10px;*/
 }
+
 .title-sp {
     font-size: 20px;
     color: red;
@@ -123,7 +140,8 @@ body {
     margin: 0px auto;
     display: block;
 }
-.center-txt{
+
+.center-txt {
     text-align: center;
 }
 
@@ -137,7 +155,7 @@ body {
     color: #666;
 }
 
-.flash{
+.flash {
     padding: 30px;
     background-color: #ffe6c5;
     margin-top: 50px;
