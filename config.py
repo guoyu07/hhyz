@@ -23,7 +23,7 @@ class Config:
         pass
 
 class DefaultConfig(Config):
-    # DEBUG = True
+    DEBUG = True
     # SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
     #     'sqlite:///' + os.path.join(path, 'data-dev.sqlite')
     SQLALCHEMY_DATABASE_URI='mysql://root:@127.0.0.1:3306/hhyz'

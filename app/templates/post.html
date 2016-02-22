@@ -5,8 +5,8 @@
             <div class="row">
                 <div class="col-md-12">
                     <a href="#" target="_blank">
-                        <span class="title">这是我的我的标题,这是标题,这是标题这是标题这是标题这是标题</span>
-                        <span class="title-sp">只要998,呵呵哒</span>
+                        <span class="title">{{ post.title }}</span>
+                        <span class="title-sp">{{ post.special_title }}</span>
                     </a>
                 </div>
             </div>
@@ -14,17 +14,19 @@
                 <div class="col-md-12">
                     <div class="float-left">标签:<a href="#" target="_blank">数码</a>,<a href="#" target="_blank">手机</a>
                     </div>
-                    <div class="float-right" style="float: right"><span>评论 &nbsp; 0</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span>2016-02-08 &nbsp; 10:11</span>
+                    <div class="float-right" style="float: right"><span>评论 &nbsp; {{ post.comment_num }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span>{{ post.timestamp|format_date }}</span>
                     </div>
                 </div>
             </div>
             <div class="row margin-top-3">
                 <div class="col-md-12">
-                    <p>价格：易迅早市特价188元包邮，近期不错的价格，独脚架使用起来非常方便，除了夜景以外也基本都能应付。</p>
-                    <p>描述：富图宝是国内的数码配件品牌。三脚架太重，出门旅游还是来个独脚架方便吧。这款最低工作高度490mm，最高1490mm，
-                        最大负重5KG，自重0.53kg。基本可以满足买买们平时用用的需求了。</p>
-                    <img src="./post.jpg" class="content-img">
+                    {{ post.content|safe }}
+                </div>
+            </div>
+            <div class="row margin-top-3 ">
+                <div class="col-md-2 col-md-offset-5">
+                    <a target="_blank" class="btn btn-primary btn-lg " href="{{ post.link }}" >直达链接</a>
                 </div>
             </div>
             <div class="row">

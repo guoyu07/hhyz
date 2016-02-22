@@ -10,13 +10,10 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-        {#        <link href="//cdn.bootcss.com/flat-ui/2.2.2/css/flat-ui.min.css" rel="stylesheet">#}
         <link href={{ url_for('static',filename='css/stylesheet.css') }} rel="stylesheet">
         <link rel="shortcut icon" href="img/favicon.ico">
         <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
         <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-        {#        <script src="//cdn.bootcss.com/flat-ui/2.2.2/js/flat-ui.min.js"></script>#}
-        {#        <script src="//cdn.bootcss.com/flat-ui/2.2.2/js/vendor/video.min.js"></script>#}
         <script src={{ url_for('static', filename='js/script.js') }}></script>
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
         <!--[if lt IE 9]>
@@ -40,9 +37,12 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navbar-collapse-4">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">国内资讯<span class="navbar-unread">1</span></a></li>
-                    <li class="active"><a href="#">海涛资讯</a></li>
-                    <li><a href="#">超便宜</a></li>
+                    {% block category %}
+                        <li><a href="{{ url_for('main.index',category='国内优惠') }}">国内优惠</a></li>
+                        <li><a href="{{ url_for('main.index',category='海淘精选') }}">海淘精选</a></li>
+                        <li><a href="{{ url_for('main.index',category='超便宜') }}">超便宜</a></li>
+                    {% endblock %}
+
                 </ul>
                 <form class="navbar-form navbar-left" target="_blank" action="#" role="search">
                     {#                    <div class="form-group">#}
@@ -98,60 +98,28 @@
                 <div class="col-md-4">
                     <div class="slider">
                         <h4>最近更新</h4>
-                        <div class="row margin-top-1">
-                            <div class="col-md-3">
-                                <img src="avatar.png" height="80" width="80" class="">
-                            </div>
-                            <div class="col-md-9">
-                                <a href="#" target="_blank">
-                                    <p>我是新闻标题,哈哈哈哈哈哈爱的电商是</p>
-                                </a>
-                                <p class="">
-                                    <a href="#" target="_blank" class="slider-info">
-                                        收藏&nbsp17
+                        {% for post in top_posts %}
+                            <div class="row margin-top-1">
+                                <div class="col-md-3">
+                                    <img src="{{ post.img }}" height="80" width="80" class="">
+                                </div>
+                                <div class="col-md-9">
+                                    <a href="#" target="_blank">
+                                        <p>{{ post.title }}</p>
                                     </a>
-                                    <a href="#" target="_blank" class="slider-info">
-                                        评论&nbsp17
-                                    </a>
-                                </p>
+                                    <p class="">
+                                        <a href="#" target="_blank" class="slider-info">
+                                            收藏&nbsp{{ post.collect }}
+                                        </a>
+                                        <a href="#" target="_blank" class="slider-info">
+                                            评论&nbsp{{ post.comment_num }}
+                                        </a>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row margin-top-1">
-                            <div class="col-md-3">
-                                <img src="avatar.png" height="80" width="80" class="">
-                            </div>
-                            <div class="col-md-9">
-                                <a href="#" target="_blank">
-                                    <p>我是新闻标题,哈哈哈哈哈哈爱的电商是</p>
-                                </a>
-                                <p class="">
-                                    <a href="#" target="_blank" class="slider-info">
-                                        收藏&nbsp17
-                                    </a>
-                                    <a href="#" target="_blank" class="slider-info">
-                                        评论&nbsp17
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row margin-top-1">
-                            <div class="col-md-3">
-                                <img src="avatar.png" height="80" width="80" class="">
-                            </div>
-                            <div class="col-md-9">
-                                <a href="#" target="_blank">
-                                    <p>我是新闻标题,哈哈哈哈哈哈爱的电商是</p>
-                                </a>
-                                <p class="">
-                                    <a href="#" target="_blank" class="slider-info">
-                                        收藏&nbsp17
-                                    </a>
-                                    <a href="#" target="_blank" class="slider-info">
-                                        评论&nbsp17
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
+                        {% endfor %}
+
+
                         <hr>
                     </div>
                     <div class="slider">

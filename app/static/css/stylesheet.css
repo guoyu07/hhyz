@@ -113,6 +113,8 @@ a:link,a:visited,a:hover {
     display: block;
     height: auto;
     max-width: 500px;
+    margin-top: 30px;
+    margin-bottom: 20px;
 }
 
 .comment {

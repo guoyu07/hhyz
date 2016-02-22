@@ -1,5 +1,7 @@
 {% extends "base.html" %}
+{% import '_macros.html' as macros %}
 {% block title %}好货驿站--只为优惠生活{% endblock %}
+{#{% block category %}{{ macros.build_category() }} {% endblock %}#}
 {% block left %}
     <div class="col-md-8">
         {% for post in  posts %}
@@ -7,7 +9,8 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-12">
-                            <a href="#" target="_blank"><span class="label label-default icon">{{ post.store }}</span></a>
+                            <a href="#" target="_blank"><span
+                                    class="label label-default icon">{{ post.store }}</span></a>
                             &nbsp;&nbsp;
                             <a href={{ url_for('main.post',id=post.id) }} target="_blank">
                                 <span class="title">{{ post.title }}</span>
@@ -25,7 +28,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <span class="tag-from tag">来自:{{ post.from_name }}</span>
-                                    <div class="tag-tag tag">标签:
+                                    <div class="tag-tag tag">标签:{{ date }}
                                         <a href="#" target="_blank" class="label label-default">标签</a>
                                         <a href="#" target="_blank" class="label label-default">标签</a>
                                         <a href="#" target="_blank" class="label label-default">标签</a>
@@ -37,7 +40,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <p class="info margin-top-2">
-                                        {{ post.content|slug  }}
+                                        {{ post.content|slug }}
                                     </p>
                                 </div>
                             </div>
@@ -54,8 +57,9 @@
                                            style="color: #34495e"></i>
                                         <span class=" tag-font">{{ post.collect }}</span>
                                     </a>
-                                    <a target="_blank" href={{ url_for('main.post',id=post.id) }} class="btn btn-primary float-right go-btn">查看 ></a>
-                                    <a  target="_blank" class="from float-right from-a">{{ post.store }}</a>
+                                    <a target="_blank" href={{ url_for('main.post',id=post.id) }} class="btn btn-primary
+                                       float-right go-btn">查看 ></a>
+                                    <a target="_blank" class="from float-right from-a">{{ post.store }}</a>
                                 </div>
                             </div>
                         </div>
@@ -64,5 +68,8 @@
                 </div>
             </div>
         {% endfor %}
+        {% if pagination %}
+            {{ macros.pagination_widget(pagination,'main.index') }}
+        {% endif%}
     </div>
 {% endblock %}
