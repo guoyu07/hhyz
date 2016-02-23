@@ -1,5 +1,19 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
 body {
     font-size: 14px;
+    margin-bottom: 80px;
+}
+
+body > .container {
+    padding: 80px 60px 0;
+}
+
+a:link, a:visited, a:hover {
+    text-decoration: none;
 }
 
 .navgation {
@@ -7,15 +21,17 @@ body {
 }
 
 .footer {
-    background-color: #ecf0f1;
-    position: relative;
-    bottom: 0px;
+    background-color: #e7e7e7;
+    position: absolute;
     width: 100%;
-
+    padding: 10px;
+    bottom: 0px;
 }
+
 .icon {
 
 }
+
 .list {
     margin-top: 20px;
 }
@@ -25,6 +41,7 @@ body {
     font-size: 20px;
     /*margin-left: 10px;*/
 }
+
 .title-sp {
     font-size: 20px;
     color: red;
@@ -96,6 +113,8 @@ body {
     display: block;
     height: auto;
     max-width: 500px;
+    margin-top: 30px;
+    margin-bottom: 20px;
 }
 
 .comment {
@@ -106,6 +125,7 @@ body {
 .comment-time {
     color: #c5c5c5;
     font-size: 12px;
+    margin-right: 15px;
 }
 
 .comment-reply {
@@ -123,10 +143,13 @@ body {
     margin: 0px auto;
     display: block;
 }
-.center-txt{
+
+.center-txt {
     text-align: center;
 }
-
+.comment-input{
+    margin-top: 50px;
+}
 .info-lable {
     text-align: right;
     float: right;
@@ -137,11 +160,35 @@ body {
     color: #666;
 }
 
-.flash{
+.flash {
     padding: 30px;
     background-color: #ffe6c5;
     margin-top: 50px;
     text-align: center;
+}
+
+.keywords {
+    padding: 2px 4px;
+    color: #c7254e;
+    border-radius: 4px;
+}
+
+.comment-text {
+    min-width: 600px;
+}
+.content-username{
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+}
+.comment-warnning{
+    color: red;
+    margin-left: auto;
+    margin-right: auto;
+    display: none;
+}
+.comment-title{
+    line-height: 30px;
 }
 
 .margin-top-1 {

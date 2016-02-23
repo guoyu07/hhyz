@@ -24,11 +24,6 @@ def create_app(config_name):
     bootstrap.init_app(app)
     login_manager.init_app(app)
     db.init_app(app)
-
-    # if not app.debug and not app.testing and not app.config['SSL_DISABLE']:
-    #     from flask.ext.sslify import SSLify
-    #     sslify = SSLify(app)
-
     from api import api as api_blueprint
     app.register_blueprint(api_blueprint,url_prefix='/api')
 

@@ -1,92 +1,7 @@
 /**
  * Created by chuckcheng on 16/2/2.
  */
-$(function ($) {
-    //弹出登录
-    //$("#example").hover(function () {
-    //    $(this).stop().animate({
-    //        opacity: '1'
-    //    }, 600);
-    //}, function () {
-    //    $(this).stop().animate({
-    //        opacity: '0.6'
-    //    }, 1000);
-    //}).on('click', function () {
-    //    $("body").append("<div id='mask'></div>");
-    //    $("#mask").addClass("mask").fadeIn("slow");
-    //    $("#LoginBox").fadeIn("slow");
-    //});
-    //
-    //按钮的透明度
-    //$("#loginbtn").hover(function () {
-    //    $(this).stop().animate({
-    //        opacity: '1'
-    //    }, 600);
-    //}, function () {
-    //    $(this).stop().animate({
-    //        opacity: '0.8'
-    //    }, 1000);
-    //});
-    ////文本框不允许为空---按钮触发
-    //$("#loginbtn").on('click', function () {
-    //    var txtName = $("#txtName").val();
-    //    var txtPwd = $("#txtPwd").val();
-    //    if (txtName == "" || txtName == undefined || txtName == null) {
-    //        if (txtPwd == "" || txtPwd == undefined || txtPwd == null) {
-    //            $(".warning").css({display: 'block'});
-    //        }
-    //        else {
-    //            $("#warn").css({display: 'block'});
-    //            $("#warn2").css({display: 'none'});
-    //        }
-    //    }
-    //    else {
-    //        if (txtPwd == "" || txtPwd == undefined || txtPwd == null) {
-    //            $("#warn").css({display: 'none'});
-    //            $(".warn2").css({display: 'block'});
-    //        }
-    //        else {
-    //            $(".warning").css({display: 'none'});
-    //        }
-    //    }
-    //});
-    //文本框不允许为空---单个文本触发
-    $("#txtName").on('blur', function () {
-        var txtName = $("#txtName").val();
-        if (txtName == "" || txtName == undefined || txtName == null) {
-            $("#warn").css({display: 'block'});
-        }
-        else {
-            $("#warn").css({display: 'none'});
-        }
-    });
-    $("#txtName").on('focus', function () {
-        $("#warn").css({display: 'none'});
-    });
-    //
-    $("#txtPwd").on('blur', function () {
-        var txtName = $("#txtPwd").val();
-        if (txtName == "" || txtName == undefined || txtName == null) {
-            $("#warn2").css({display: 'block'});
-        }
-        else {
-            $("#warn2").css({display: 'none'});
-        }
-    });
-    $("#txtPwd").on('focus', function () {
-        $("#warn2").css({display: 'none'});
-    });
-    //关闭
-    $(".close_btn").hover(function () {
-        $(this).css({color: 'black'})
-    }, function () {
-        $(this).css({color: '#999'})
-    }).on('click', function () {
-        $("#LoginBox").fadeOut("fast");
-        $("#mask").css({display: 'none'});
-    });
-
-
+$(function () {
     //注册验证
     $('.register-content').blur(function () {
         if ($(this).val() != '') {
@@ -100,28 +15,85 @@ $(function ($) {
     //插入html元素
     $.get('/auth/login', {}, function (data) {
         $('#login_panel').append(data)
+        $('#login_auth_code_img').attr('src', '/auth/authcode?nums=' + Math.random())
+        $('#login_auth_code_img').click(function () {
+            $('#login_auth_code_img').attr('src', '/auth/authcode?nums=' + Math.random())
+        });
         $('#login_btn').click(function () {
             var username = $('#login_username').val()
             var password = $('#login_password').val()
+            var verification = $('#login_verification').val()
             var remember_me = $('#login_remember_me').val()
             var csrf_token = $('#login_csrf_token').val()
             $.post('/auth/login', {
                 'username': username,
                 'password': password,
                 'remrmber_me': remember_me,
+                'verification': verification,
                 'csrf_token': csrf_token
             }, function (data) {
-                if (data == 'true') {
+                if (data['success']) {
                     window.location.reload()
                 }
                 else {
+                    if (data['show_auth']) {
+                        $('#login_auth_code_div').show()
+                        $('#login_auth_code_img').attr('src', '/auth/authcode?nums=' + Math.random())
+                    }
                     $('#login_info').show()
                 }
-            });
+            }, 'json');
         });
     }, 'html')
 
     $('#register_auth_code').click(function () {
-        $('#register_auth_code').attr('src','/auth/authcode?nums='+Math.random())
+        $('#register_auth_code').attr('src', '/auth/authcode?nums=' + Math.random())
     });
+
+    //$(function () {
+    //    $('[data-toggle="popover"]').popover()
+    //})
+    $('#collect_a').click(function () {
+
+    });
+    $('#comment-add-btn').click(function () {
+        var content = $('#comment-content').val()
+        var user_id = $('#user_id').val()
+        var post_id = $('#post_id').val()
+        if (content == '') {
+            $('.comment-warnning').show()
+            return;
+        }
+        $.post('/api/add_comment', {'content': content, 'user_id': user_id, 'post_id': post_id}, function (data) {
+            alert(data['state'])
+            if (data['state'] == 'success') {
+                $('#comment-append').append('<div class="comment"><div class="row">\
+                        <div class="col-md-1">\
+                            <a href="#" target="_blank">\
+                                <img src="' + data['avatar'] + '" width="70" height="70">\
+                            </a>\
+                        </div>\
+                        <div class="col-md-11">\
+                            <div class="row margin-left-1">\
+                                <div class="col-md-12">\
+                                    <div class="comment-title">\
+                                        <a href="#" target="_blank">' + data['username'] + '</a>\
+                                        <a href="#" class="float-right">回复此评论</a>\
+                                        <span class="float-right comment-time">' + data['time'] + '</span>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                            <div class="row margin-left-1">\
+                                <div class="col-md-12 margin-top-1">\
+                                    ' + content + '\
+                                </div>\
+                            </div>\
+                        </div>\
+                    </div><hr/></div>')
+            }
+            else {
+
+            }
+        }, 'json')
+    })
 });
