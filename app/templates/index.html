@@ -1,9 +1,33 @@
 {% extends "base.html" %}
 {% import '_macros.html' as macros %}
 {% block title %}好货驿站--只为优惠生活{% endblock %}
-{#{% block category %}{{ macros.build_category() }} {% endblock %}#}
+{% block category %}{{ macros.build_category(category) }} {% endblock %}
 {% block left %}
     <div class="col-md-8">
+        {% if is_search %}
+            <div class="row ">
+                <div class="col-md-12">
+                    <h1>站内搜索&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywords">“{{ keywords }}“</span></h1>
+                </div>
+            </div>
+            {% if posts|length==0 %}
+            <div class="row" style="margin-top:100px">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 class="center-txt">很抱歉，没有找到<span class="keywords">“{{ keywords }}”</span> 的相关结果</h3>
+                        </div>
+                    </div>
+                    <div class="row margin-top-2">
+                        <div class="col-md-12">
+                            <p class="center-txt">请修改搜索选项或尝试其他搜索词</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% endif %}
+        {% endif %}
         {% for post in  posts %}
             <div class="row list">
                 <div class="col-md-12">
@@ -50,9 +74,10 @@
                                     <sp class=" tag-font">{{ post.up }}</sp>
                                     <i class="glyphicon glyphicon-thumbs-down margin-left-3"></i><span
                                         class=" tag-font">{{ post.down }}</span>
-                                    <i class="glyphicon glyphicon-comment margin-left-3"></i><span
-                                        class=" tag-font">0</span>
-                                    <a href="#" target="_blank">
+                                    <a href={{ url_for('main.post',id=post.id)+'#comment' }}><i
+                                            class="glyphicon glyphicon-comment margin-left-3"></i><span
+                                            class=" tag-font">{{ post.comment_num }}</span></a>
+                                    <a target="_blank" class="collect_a">
                                         <i class="glyphicon glyphicon-star-empty margin-left-3"
                                            style="color: #34495e"></i>
                                         <span class=" tag-font">{{ post.collect }}</span>
@@ -70,6 +95,6 @@
         {% endfor %}
         {% if pagination %}
             {{ macros.pagination_widget(pagination,'main.index') }}
-        {% endif%}
+        {% endif %}
     </div>
 {% endblock %}

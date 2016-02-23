@@ -3,7 +3,6 @@ from datetime import datetime
 from . import db
 from . import login_manager
 from flask.ext.sqlalchemy import BaseQuery
-from flask import request,url_for,current_app
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask.ext.login import UserMixin,AnonymousUserMixin
 class Permission:
@@ -16,6 +15,7 @@ UserPost = db.Table('user_post',
     db.Column('user_id', db.Integer, db.ForeignKey('users.id'),primary_key=True),
     db.Column('post_id', db.Integer, db.ForeignKey('posts.id'),primary_key=True)
 )
+
 class User(db.Model,UserMixin):
     __tablename__='users'
     id=db.Column(db.Integer,primary_key=True)
@@ -31,8 +31,8 @@ class User(db.Model,UserMixin):
     confirmed=db.Column(db.Integer)#是否激活
     about_me=db.String(db.Text)#个人说明
     avatar=db.Column(db.String(255))#头像路径
-    member_since=db.Column(db.DateTime,default=datetime.utcnow)#注册时间
-    last_seen=db.Column(db.DateTime,default=datetime.utcnow,onupdate=datetime.utcnow)#最后登录时间
+    member_since=db.Column(db.DateTime,default=datetime.now)#注册时间
+    last_seen=db.Column(db.DateTime,default=datetime.now,onupdate=datetime.now)#最后登录时间
     collects=db.relationship('Post',secondary=UserPost,backref=db.backref('users', lazy='dynamic'))#收藏
     comments=db.relationship('Comment',backref='author',lazy='dynamic')#评论
     disabled=db.Column(db.Boolean,default=False)#状态不可用
@@ -101,6 +101,19 @@ Post_Tag=db.Table('post_tag',
     db.Column('tag_id',db.Integer,db.ForeignKey('tags.id'),primary_key=True)
 )
 
+class PostQuery(BaseQuery):
+    #数据库搜索
+    def search(self, keywords):
+        criteria = []
+        for keyword in keywords.split():
+            keyword = '%' + keyword + '%'
+            criteria.append(db.or_(Post.title.ilike(keyword),
+                                   Post.special_title.ilike(keyword),
+                                   Post.content.ilike(keyword)))
+
+        q = reduce(db.and_, criteria)
+        return self.filter(q)
+
 class Post(db.Model):
     __tablename__='posts'
     id=db.Column(db.Integer,primary_key=True)
@@ -111,7 +124,7 @@ class Post(db.Model):
     comment_num=db.Column(db.Integer,default=0)#评论数
     special_title=db.Column(db.String(255))#特殊标题
     tags=db.Column(db.String(128))#标签(字符串)
-    timestamp=db.Column(db.DateTime,default=datetime.utcnow)#时间戳
+    timestamp=db.Column(db.DateTime,default=datetime.now)#时间戳
     link=db.Column(db.String(255))#直达链接
     comments=db.relationship('Comment',lazy='dynamic')#评论
     content=db.Column(db.Text)#内容
@@ -123,6 +136,8 @@ class Post(db.Model):
     store=db.Column(db.String(64))#商城
     classification=db.relationship('Classification',uselist=False)#小分类
     classification_id=db.Column(db.Integer,db.ForeignKey('classification.id'))
+    query_class=PostQuery#设置基础查询器
+
 
     def __init__(self,*args,**kwargs):
         super(Post,self).__init__(*args,**kwargs)
@@ -138,12 +153,13 @@ class Tag(db.Model):
 class Comment(db.Model):
     __tablename__='comments'
     id=db.Column(db.Integer,primary_key=True)
-    content=db.column(db.Text)#评论内容
-    timestamp=db.Column(db.DateTime,default=datetime.utcnow)#时间戳
+    content=db.Column(db.Text)#评论内容
+    timestamp=db.Column(db.DateTime,default=datetime.now)#时间戳
     up=db.Column(db.Integer,default=0)#顶的数量
     down=db.Column(db.Integer,default=0)#踩的数量
     disabled=db.Column(db.Boolean,default=False)#状态不可用
     parent=db.relationship('Comment',uselist=False)
+    user=db.relationship('User',uselist=False)
     parent_id=db.Column(db.Integer,db.ForeignKey('comments.id'))
     post_id=db.Column(db.Integer,db.ForeignKey('posts.id'))
     user_id=db.Column(db.Integer,db.ForeignKey('users.id'))

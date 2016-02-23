@@ -29,7 +29,6 @@ def login():
             if session['login_num']>4:
                 show_auth=True
             return jsonify({'success':False,'show_auth':show_auth})
-    print form.errors
     return render_template('auth/login.html',form=form)
 @auth.route('/register',methods=['GET','POST'])
 def register():
@@ -58,11 +57,16 @@ def authcode():
     out_put.seek(0)
     return send_file(out_put,mimetype='image/png')
 @auth.route('/collect')
+@login_required
 def collect():
     pass
 @auth.route('/info')
+@login_required
 def info():
     pass
 @auth.route('/logout')
+@login_required
 def logout():
-    pass
+    url=request.referrer
+    logout_user()
+    return redirect(url)

@@ -12,13 +12,13 @@
     {% endif %}
 {% endmacro %}
 {% macro build_category(category) %}
-    <li {% if category=="国内优惠" %} class="active" {% endif %}><a href="#">国内优惠</a></li>
-    <li {% if category=="海淘精选" %} class="active" {% endif %}><a href="#">海淘精选</a></li>
-    <li {% if category=="超便宜" %} class="active" {% endif %}><a href="#">超便宜</a></li>
+    <li {% if category=="国内优惠" %} class="active" {% endif %}><a href="{{ url_for('main.index',category='国内优惠')}}">国内优惠</a></li>
+    <li {% if category=="海淘精选" %} class="active" {% endif %}><a href="{{ url_for('main.index',category='海淘精选')}}">海淘精选</a></li>
+    <li {% if category=="超便宜" %} class="active" {% endif %}><a href="{{ url_for('main.index',category='超便宜') }}">超便宜</a></li>
 {% endmacro %}
 
 {% macro pagination_widget(pagination,endpoint) %}
-    <div class="row">
+    <div class="row" {% if pagination.pages<=1 %}style="display: none"{% endif %}>
         <div class="col-md-12">
             <nav class="float-right">
                 <ul class="pagination">

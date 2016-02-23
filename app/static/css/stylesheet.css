@@ -12,7 +12,7 @@ body > .container {
     padding: 80px 60px 0;
 }
 
-a:link,a:visited,a:hover {
+a:link, a:visited, a:hover {
     text-decoration: none;
 }
 
@@ -125,6 +125,7 @@ a:link,a:visited,a:hover {
 .comment-time {
     color: #c5c5c5;
     font-size: 12px;
+    margin-right: 15px;
 }
 
 .comment-reply {
@@ -146,7 +147,9 @@ a:link,a:visited,a:hover {
 .center-txt {
     text-align: center;
 }
-
+.comment-input{
+    margin-top: 50px;
+}
 .info-lable {
     text-align: right;
     float: right;
@@ -162,6 +165,30 @@ a:link,a:visited,a:hover {
     background-color: #ffe6c5;
     margin-top: 50px;
     text-align: center;
+}
+
+.keywords {
+    padding: 2px 4px;
+    color: #c7254e;
+    border-radius: 4px;
+}
+
+.comment-text {
+    min-width: 600px;
+}
+.content-username{
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+}
+.comment-warnning{
+    color: red;
+    margin-left: auto;
+    margin-right: auto;
+    display: none;
+}
+.comment-title{
+    line-height: 30px;
 }
 
 .margin-top-1 {

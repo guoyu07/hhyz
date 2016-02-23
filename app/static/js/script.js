@@ -1,11 +1,7 @@
 /**
  * Created by chuckcheng on 16/2/2.
  */
-$(function ($) {
-
-
-
-
+$(function () {
     //注册验证
     $('.register-content').blur(function () {
         if ($(this).val() != '') {
@@ -54,7 +50,73 @@ $(function ($) {
         $('#register_auth_code').attr('src', '/auth/authcode?nums=' + Math.random())
     });
 
-    $(function () {
-        $('[data-toggle="popover"]').popover()
+    //$(function () {
+    //    $('[data-toggle="popover"]').popover()
+    //})
+    $('#collect_a').click(function () {
+
+    });
+    $('#comment-add-btn').click(function () {
+        var content = $('#comment-content').val()
+        var post_id = $('#post_id').val()
+        if (content == '') {
+            $('.comment-warnning').show()
+            return;
+        }
+        $.post('/api/add_comment', {content: content, post_id: post_id}, function (data) {
+            if (data['state'] == 'success') {
+                $('#comment-append').append('<div class="comment"><div class="row">\
+                        <div class="col-md-1">\
+                            <a href="#" target="_blank">\
+                                <img src="' + data['avatar'] + '" width="70" height="70">\
+                            </a>\
+                        </div>\
+                        <div class="col-md-11">\
+                            <div class="row margin-left-1">\
+                                <div class="col-md-12">\
+                                    <div class="comment-title">\
+                                        <a href="#" target="_blank">' + data['username'] + '</a>\
+                                        <a href="#" class="float-right">回复此评论</a>\
+                                        <span class="float-right comment-time">' + data['time'] + '</span>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                            <div class="row margin-left-1">\
+                                <div class="col-md-12 margin-top-1">\
+                                    ' + content + '\
+                                </div>\
+                            </div>\
+                        </div>\
+                    </div><hr/></div>')
+                $('#comment-content').val('')
+            }
+            else {
+
+            }
+        }, 'json')
     })
+    function get_comments(page) {
+        post_id = $('#post_id').val()
+        $.post('/api/get_comments', {page: page, post_id: post_id}, function (data) {
+            $('#comment').html(data)
+            bindComment()
+        }, 'html');
+    }
+    function bindComment() {
+        $('#comment-page-prev').on('click', function () {
+            page = parseInt($('#current-page').val())
+            get_comments(page - 1)
+        }).css('cursor', 'pointer');
+        $('#comment-page-next').on('click', function () {
+            page = parseInt($('#current-page').val())
+            get_comments(page + 1)
+        }).css('cursor', 'pointer');
+        $('.comment-page').on('click', function () {
+            page = $(this).text()
+            if (page == $('#current-page').val())
+                return
+            get_comments(page)
+        }).css('cursor', 'pointer');
+    }
+    bindComment()
 });

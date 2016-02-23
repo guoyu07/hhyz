@@ -1,93 +1,111 @@
 {% extends 'base.html' %}
-{% block title %}{{ ''}}{% endblock %}
+{% block title %}{{ '' }}{% endblock %}
 {% block left %}
-<div class="col-md-8">
-            <div class="row">
-                <div class="col-md-12">
-                    <a href="#" target="_blank">
-                        <span class="title">{{ post.title }}</span>
-                        <span class="title-sp">{{ post.special_title }}</span>
-                    </a>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-12">
+                <a href="#" target="_blank">
+                    <span class="title">{{ post.title }}</span>
+                    <span class="title-sp">{{ post.special_title }}</span>
+                </a>
+            </div>
+        </div>
+        <div class="row margin-top-3" style="color: #aaa;font-size: 12px">
+            <div class="col-md-12">
+                <div class="float-left">标签:<a href="#" target="_blank">数码</a>,<a href="#" target="_blank">手机</a>
+                </div>
+                <div class="float-right" style="float: right"><span>评论 &nbsp; {{ post.comment_num }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span>{{ post.timestamp|format_date }}</span>
                 </div>
             </div>
-            <div class="row margin-top-3" style="color: #aaa;font-size: 12px">
-                <div class="col-md-12">
-                    <div class="float-left">标签:<a href="#" target="_blank">数码</a>,<a href="#" target="_blank">手机</a>
-                    </div>
-                    <div class="float-right" style="float: right"><span>评论 &nbsp; {{ post.comment_num }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span>{{ post.timestamp|format_date }}</span>
-                    </div>
-                </div>
+        </div>
+        <div class="row margin-top-3">
+            <div class="col-md-12">
+                {{ post.content|safe }}
             </div>
-            <div class="row margin-top-3">
-                <div class="col-md-12">
-                    {{ post.content|safe }}
-                </div>
+        </div>
+        <div class="row margin-top-3">
+            <div class="col-md-2 col-md-offset-5">
+                <a target="_blank" class="btn btn-primary btn-lg " href="{{ post.link }}">直达链接</a>
             </div>
-            <div class="row margin-top-3 ">
-                <div class="col-md-2 col-md-offset-5">
-                    <a target="_blank" class="btn btn-primary btn-lg " href="{{ post.link }}" >直达链接</a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <hr/>
-                    <div class="comment">
-                        <div class="row">
-                            <div class="col-md-1">
-                                <a href="#" target="_blank">
-                                    <img src="avatar.jpg" width="70" height="70">
-                                </a>
-                            </div>
-                            <div class="col-md-11">
-                                <div class="row margin-left-1">
-                                    <div class="col-md-12">
-                                        <a href="#" target="_blank">我是用户名</a>
-                                        <a href="#" class="float-right">回复此评论</a>
-                                        <span class="float-right comment-time">2016-02-07&nbsp;10:10</span>
-                                    </div>
+        </div>
+        <div class="row" id="comment">
+            {% include 'comment.html' %}
+{#            <div class="col-md-12" id="comment-append">#}
+{#                <hr/>#}
+{#                <div class="comment" >#}
+{#                    <div class="row">#}
+{#                        <div class="col-md-1">#}
+{#                            <a href="#" target="_blank">#}
+{#                                <img src="avatar.jpg" width="70" height="70">#}
+{#                            </a>#}
+{#                        </div>#}
+{#                        <div class="col-md-11">#}
+{#                            <div class="row margin-left-1">#}
+{#                                <div class="col-md-12">#}
+{#                                    <div class="comment-title">#}
+{#                                        <a href="#" target="_blank">我是用户名</a>#}
+{#                                        <a href="#" class="float-right">回复此评论</a>#}
+{#                                        <span class="float-right comment-time">2016-02-07&nbsp;10:10</span>#}
+{#                                    </div>#}
+{##}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="row margin-left-1">#}
+{#                                <div class="col-md-12">#}
+{#                                    <div class="comment-reply">#}
+{#                                        <div class="row">#}
+{#                                            <div class="col-md-12">#}
+{#                                                引用<a href="#" target="_blank">我是评论者</a>的回复#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="row">#}
+{#                                            <div class="col-md-12">#}
+{#                                                我是评论内容啊啊付电费是丰富的#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="margin-top-2">#}
+{#                                        我是评论的内内容#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <hr/>#}
+{#                </div>#}
+{#            </div>#}
+        </div>
+        <div class="row comment-input">
+            <input type="hidden" id="post_id" value="{{ post.id }}">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="float-left">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <img height="70" width="70" src="{{ current_user.avatar }}" class=""/>
                                 </div>
-                                <div class="row margin-left-1">
-                                    <div class="col-md-12">
-                                        <div class="comment-reply">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    引用<a href="#" target="_blank">我是评论者</a>的回复
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    我是评论内容啊啊付电费是丰富的
-                                                </div>
-                                            </div>
-                                        </div>
-                                        我是评论的内内容
-                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a href="#" class="content-username">{{ current_user.username }}</a>
                                 </div>
                             </div>
                         </div>
-                        <hr/>
+                        <div class="float-left margin-left-3">
+                            <textarea name="" placeholder="请评论这个宝贝" class="form-control comment-text" rows="4"
+                                      id="comment-content"></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row margin-top-3">
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <input placeholder="昵称" name="" class="form-control input-sm"/>
-                        </div>
-                    </div>
-                    <div class="row margin-top-1">
-                        <div class="col-md-8">
-                            <textarea name="" placeholder="请评论这个宝贝" class="form-control" rows="4" ></textarea>
-                        </div>
-                    </div>
-                    <div class="row margin-top-1">
-                        <div class="col-md-3">
-                            <button class="btn btn-primary" name="">发表评论</button>
-                        </div>
+                <div class="row" style="margin-bottom: 20px">
+                    <div class="col-md-12 margin-top-1">
+                        <span class="comment-warnning">你是不是忘了说点什么</span>
+                        <button class="btn btn-primary float-right" name="" id="comment-add-btn">发表评论</button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 {% endblock %}

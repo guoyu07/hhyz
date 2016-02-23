@@ -1,0 +1,74 @@
+{#<div class="row" id="comment">#}
+    <div class="col-md-12" id="comment-append">
+        <hr />
+        {% for c in comments %}
+            <div class="comment">
+                <div class="row">
+                    <div class="col-md-1">
+                        <a href="#" target="_blank">
+                            <img src="{{ c.user.avatar }}" width="70" height="70">
+                        </a>
+                    </div>
+                    <div class="col-md-11">
+                        <div class="row margin-left-1 comment-title">
+                            <div class="col-md-12">
+                                <a href="#" target="_blank">{{ c.user.username }}</a>
+                                <a href="#" class="float-right comment-reply-btn" id="{{ c.id }}">回复此评论</a>
+                                <span class="float-right comment-time">{{ c.timestamp|format_date }}</span>
+                            </div>
+                        </div>
+                        <div class="row margin-left-1">
+                            <div class="col-md-12">
+                                {% if c.parent %} }
+                                    <div class="comment-reply">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                引用<a href="#" target="_blank">{{ c.parent.user.username }}</a>的回复
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                {{ c.parent.content }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                {{ c.content }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+            </div>
+        {% endfor %}
+
+        <div class="row" {% if pagination.pages<=1 %}style="display: none"{% endif %}>
+            <input type="hidden" value="{{ pagination.page }}" id="current-page">
+            <div class="col-md-12">
+                <nav class="float-right">
+                    <ul class="pagination">
+                        <li {% if not pagination.has_prev %} style="display: none" {% endif %}>
+{#                            <a href="{{ url_for(endpoint,page=pagination.prev_num) }}" aria-label="Previous">#}
+                                <span aria-hidden="true" id="comment-page-prev">&laquo;</span>
+{#                            </a>#}
+                        </li>
+                        {% for p in pagination.iter_pages() %}
+                            {% if p %}
+                                <li {% if p==pagination.page %}class="active"{% endif %}>
+                                    <a class="comment-page">{{ p }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        <li {% if not pagination.has_next %} style="display: none" {% endif %}>
+{#                            <a href="{{ url_for(endpoint,page=pagination.next_num) }}" aria-label="Next">#}
+                                <span aria-hidden="true" id="comment-page-next">&raquo;</span>
+{#                            </a>#}
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+{#</div>#}
