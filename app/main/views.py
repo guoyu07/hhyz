@@ -1,5 +1,5 @@
 # encoding=utf-8
-from flask import request,url_for,render_template,current_app
+from flask import request,url_for,render_template,current_app,redirect
 from . import main
 from ..models import Post,Comment
 #处理主页的请求
@@ -20,6 +20,7 @@ def post(id):
     post=Post.query.filter_by(id=id).first()
     pagination=post.comments.order_by(Comment.timestamp.desc()).paginate(1,per_page=current_app.config['HHYZ_COMMENTS_PER_PAGE'],error_out=False)
     comments=pagination.items
+    print comments[0].parent
     return render_template('post.html',post=post,pagination=pagination,comments=comments)
 @main.route('/info')
 def info():
@@ -29,6 +30,8 @@ def info():
 @main.route('/search',methods=['GET', 'POST'])
 def search():
     keywords=request.args.get('keywords')
+    if keywords==None:
+       return redirect(url_for('main.index'))
     page=request.args.get('page',1,type=int)
     query=Post.query.search(keywords)
     pagination=query.order_by(Post.id.desc()).\

@@ -13,7 +13,7 @@ def slug(content):
     res=u''
     soup=BeautifulSoup(content)
     res=soup.getText()
-    if len(res)>200:
-        res=res[:150]
+    if len(res)>100:
+        res=res[:100]
         res+=u'...'
     return res

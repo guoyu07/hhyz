@@ -45,3 +45,7 @@ def get_comments():
                         ,per_page=current_app.config['HHYZ_COMMENTS_PER_PAGE'],error_out=False)
     comments=pagination.items
     return render_template('comment.html',pagination=pagination,comments=comments)
+
+@api.route('/collect')
+def collect():
+    pass

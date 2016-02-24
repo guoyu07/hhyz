@@ -34,7 +34,7 @@ class User(db.Model,UserMixin):
     member_since=db.Column(db.DateTime,default=datetime.now)#注册时间
     last_seen=db.Column(db.DateTime,default=datetime.now,onupdate=datetime.now)#最后登录时间
     collects=db.relationship('Post',secondary=UserPost,backref=db.backref('users', lazy='dynamic'))#收藏
-    comments=db.relationship('Comment',backref='author',lazy='dynamic')#评论
+    comments=db.relationship('Comment',lazy='dynamic')#评论
     disabled=db.Column(db.Boolean,default=False)#状态不可用
 
     #设置密码
@@ -158,7 +158,7 @@ class Comment(db.Model):
     up=db.Column(db.Integer,default=0)#顶的数量
     down=db.Column(db.Integer,default=0)#踩的数量
     disabled=db.Column(db.Boolean,default=False)#状态不可用
-    parent=db.relationship('Comment',uselist=False)
+    parent=db.relationship('Comment',uselist=False,remote_side=[id])
     user=db.relationship('User',uselist=False)
     parent_id=db.Column(db.Integer,db.ForeignKey('comments.id'))
     post_id=db.Column(db.Integer,db.ForeignKey('posts.id'))

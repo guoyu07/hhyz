@@ -11,20 +11,20 @@
                 </div>
             </div>
             {% if posts|length==0 %}
-            <div class="row" style="margin-top:100px">
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h3 class="center-txt">很抱歉，没有找到<span class="keywords">“{{ keywords }}”</span> 的相关结果</h3>
+                <div class="row" style="margin-top:100px">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3 class="center-txt">很抱歉，没有找到<span class="keywords">“{{ keywords }}”</span> 的相关结果</h3>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row margin-top-2">
-                        <div class="col-md-12">
-                            <p class="center-txt">请修改搜索选项或尝试其他搜索词</p>
+                        <div class="row margin-top-2">
+                            <div class="col-md-12">
+                                <p class="center-txt">请修改搜索选项或尝试其他搜索词</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
             {% endif %}
         {% endif %}
@@ -32,59 +32,62 @@
             <div class="row list">
                 <div class="col-md-12">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 post-title">
                             <a href="#" target="_blank"><span
-                                    class="label label-default icon">{{ post.store }}</span></a>
+                                    class="post-head">{{ post.store }}</span></a>
                             &nbsp;&nbsp;
-                            <a href={{ url_for('main.post',id=post.id) }} target="_blank">
-                                <span class="title">{{ post.title }}</span>
+                            <a href={{ url_for('main.post',id=post.id) }} target="_blank" class="title">
+                                {{ post.title }}
                                 <span class="title-sp">{{ post.special_title }}</span>
                             </a>
                         </div>
                     </div>
                     <div class="row margin-top-1">
-                        <div class="col-md-4">
-                            <a href="#" target="_blank">
-                                <img src={{ post.img }} width="200" height="200"/>
-                            </a>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <span class="tag-from tag">来自:{{ post.from_name }}</span>
-                                    <div class="tag-tag tag">标签:{{ date }}
-                                        <a href="#" target="_blank" class="label label-default">标签</a>
-                                        <a href="#" target="_blank" class="label label-default">标签</a>
-                                        <a href="#" target="_blank" class="label label-default">标签</a>
+                        <div class="col-md-12">
+                            <div class="post-left">
+                                <a href="{{ url_for('main.post',id=post.id) }}" target="_blank">
+                                    <img src={{ post.img }} width="150" height="150"/>
+                                </a>
+                            </div>
+                            <div class="post-right">
+                                <div class="row">
+                                    <div class="col-md-12 post-info">
+                                        <span class="tag-from tag">来自:{{ post.from_name }}</span>
+                                        <div class="tag-tag tag">标签:{{ date }}
+                                            <a href="#" target="_blank" class="post-label">标签</a>
+                                            <a href="#" target="_blank" class="post-label">标签</a>
+                                            <a href="#" target="_blank" class="post-label">标签</a>
+                                        </div>
+                                        <span class="tag-time tag">{{ post.timestamp|format_date }}</span>
                                     </div>
-                                    <span class="tag-time tag">时间:{{ post.timestamp|format_date }}</span>
                                 </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <p class="info margin-top-2">
-                                        {{ post.content|slug }}
-                                    </p>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="info margin-top-2">
+                                            {{ post.content|slug }}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <i class="glyphicon glyphicon-thumbs-up" style="padding-top: 7px"></i>
-                                    <sp class=" tag-font">{{ post.up }}</sp>
-                                    <i class="glyphicon glyphicon-thumbs-down margin-left-3"></i><span
-                                        class=" tag-font">{{ post.down }}</span>
-                                    <a href={{ url_for('main.post',id=post.id)+'#comment' }}><i
-                                            class="glyphicon glyphicon-comment margin-left-3"></i><span
-                                            class=" tag-font">{{ post.comment_num }}</span></a>
-                                    <a target="_blank" class="collect_a">
-                                        <i class="glyphicon glyphicon-star-empty margin-left-3"
-                                           style="color: #34495e"></i>
-                                        <span class=" tag-font">{{ post.collect }}</span>
-                                    </a>
-                                    <a target="_blank" href={{ url_for('main.post',id=post.id) }} class="btn btn-primary
-                                       float-right go-btn">查看 ></a>
-                                    <a target="_blank" class="from float-right from-a">{{ post.store }}</a>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <i class="glyphicon glyphicon-thumbs-up" style="padding-top: 7px"></i>
+                                        <sp class=" tag-font">{{ post.up }}</sp>
+                                        <i class="glyphicon glyphicon-thumbs-down margin-left-3"></i><span
+                                            class=" tag-font">{{ post.down }}</span>
+                                        <a href={{ url_for('main.post',id=post.id)+'#comment' }}><i
+                                                class="glyphicon glyphicon-comment margin-left-3"></i><span
+                                                class=" tag-font">{{ post.comment_num }}</span></a>
+                                        <a target="_blank" class="collect_a">
+                                            <i class="glyphicon glyphicon-star-empty margin-left-3"
+                                               style="color: #34495e"></i>
+                                            <span class=" tag-font">{{ post.collect }}</span>
+                                        </a>
+                                        <a target="_blank" href={{ url_for('main.post',id=post.id) }} class="btn
+                                           btn-primary
+                                           float-right go-btn">查看 ></a>
+                                        <a target="_blank" class="from float-right from-a">{{ post.store }}</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

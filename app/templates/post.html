@@ -31,50 +31,6 @@
         </div>
         <div class="row" id="comment">
             {% include 'comment.html' %}
-{#            <div class="col-md-12" id="comment-append">#}
-{#                <hr/>#}
-{#                <div class="comment" >#}
-{#                    <div class="row">#}
-{#                        <div class="col-md-1">#}
-{#                            <a href="#" target="_blank">#}
-{#                                <img src="avatar.jpg" width="70" height="70">#}
-{#                            </a>#}
-{#                        </div>#}
-{#                        <div class="col-md-11">#}
-{#                            <div class="row margin-left-1">#}
-{#                                <div class="col-md-12">#}
-{#                                    <div class="comment-title">#}
-{#                                        <a href="#" target="_blank">我是用户名</a>#}
-{#                                        <a href="#" class="float-right">回复此评论</a>#}
-{#                                        <span class="float-right comment-time">2016-02-07&nbsp;10:10</span>#}
-{#                                    </div>#}
-{##}
-{#                                </div>#}
-{#                            </div>#}
-{#                            <div class="row margin-left-1">#}
-{#                                <div class="col-md-12">#}
-{#                                    <div class="comment-reply">#}
-{#                                        <div class="row">#}
-{#                                            <div class="col-md-12">#}
-{#                                                引用<a href="#" target="_blank">我是评论者</a>的回复#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                        <div class="row">#}
-{#                                            <div class="col-md-12">#}
-{#                                                我是评论内容啊啊付电费是丰富的#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                    <div class="margin-top-2">#}
-{#                                        我是评论的内内容#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                    <hr/>#}
-{#                </div>#}
-{#            </div>#}
         </div>
         <div class="row comment-input">
             <input type="hidden" id="post_id" value="{{ post.id }}">
@@ -84,7 +40,8 @@
                         <div class="float-left">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <img height="70" width="70" src="{{ current_user.avatar }}" class=""/>
+                                    <img height="70" width="70" src="{% if current_user.is_authenticated %}
+                                        {{ current_user.avatar }}{% else %}{{ url_for('static',filename='img/default_avatar.png') }} {% endif %}"/>
                                 </div>
                             </div>
                             <div class="row">
@@ -94,7 +51,7 @@
                             </div>
                         </div>
                         <div class="float-left margin-left-3">
-                            <textarea name="" placeholder="请评论这个宝贝" class="form-control comment-text" rows="4"
+                            <textarea placeholder="请评论这个宝贝" class="form-control comment-text" rows="4"
                                       id="comment-content"></textarea>
                         </div>
                     </div>

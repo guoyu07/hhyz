@@ -56,14 +56,13 @@ $(function () {
     $('#collect_a').click(function () {
 
     });
-    $('#comment-add-btn').click(function () {
-        var content = $('#comment-content').val()
+    function add_comment(content,parent_id){
         var post_id = $('#post_id').val()
         if (content == '') {
             $('.comment-warnning').show()
             return;
         }
-        $.post('/api/add_comment', {content: content, post_id: post_id}, function (data) {
+        $.post('/api/add_comment', {content: content, post_id: post_id,parent_id:parent_id}, function (data) {
             if (data['state'] == 'success') {
                 $('#comment-append').append('<div class="comment"><div class="row">\
                         <div class="col-md-1">\
@@ -94,6 +93,10 @@ $(function () {
 
             }
         }, 'json')
+    }
+    $('#comment-add-btn').click(function () {
+        var content = $('#comment-content').val()
+        add_comment(content)
     })
     function get_comments(page) {
         post_id = $('#post_id').val()
@@ -102,6 +105,7 @@ $(function () {
             bindComment()
         }, 'html');
     }
+
     function bindComment() {
         $('#comment-page-prev').on('click', function () {
             page = parseInt($('#current-page').val())
@@ -117,6 +121,20 @@ $(function () {
                 return
             get_comments(page)
         }).css('cursor', 'pointer');
+        $('.comment-reply-input').hide()
+        $('.comment-reply-btn').click(function () {
+            //$(this).parent().parent().parent().parent().children('.comment-reply-input').show()
+            id=$(this).attr('id')
+            reply=$('#comment-reply-input-'+id)
+            reply.show()
+        }).css('cursor','pointer')
+        $('.comment-reply-btn').click(function () {
+            id=$(this).attr('id')
+            content=$('#comment-reply-input-'+id).find('.comment-reply-text').val()
+            add_comment(content,parent_id=id)
+        })
     }
     bindComment()
+
+
 });
