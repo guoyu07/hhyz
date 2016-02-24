@@ -96,7 +96,7 @@ class Role(db.Model):
 
     def __repr__(self):
         return '<Role %r>' % self.name
-Post_Tag=db.Table('post_tag',
+PostTag=db.Table('post_tag',
     db.Column('post_id',db.Integer,db.ForeignKey('posts.id'),primary_key=True),
     db.Column('tag_id',db.Integer,db.ForeignKey('tags.id'),primary_key=True)
 )
@@ -123,7 +123,7 @@ class Post(db.Model):
     collect=db.Column(db.Integer,default=0)#收藏数
     comment_num=db.Column(db.Integer,default=0)#评论数
     special_title=db.Column(db.String(255))#特殊标题
-    tags=db.Column(db.String(128))#标签(字符串)
+    tags=db.relationship('Tag',secondary=PostTag,backref=db.backref('posts', lazy='dynamic'))#标签
     timestamp=db.Column(db.DateTime,default=datetime.now)#时间戳
     link=db.Column(db.String(255))#直达链接
     comments=db.relationship('Comment',lazy='dynamic')#评论
@@ -147,7 +147,9 @@ class Post(db.Model):
 class Tag(db.Model):
     __tablename__='tags'
     id=db.Column(db.Integer,primary_key=True)
-    name=db.Column(db.String(64))
+    name=db.Column(db.String(64),unique=True)
+    def __repr__(self):
+        return '<Post %r>' % self.title
 
 
 class Comment(db.Model):

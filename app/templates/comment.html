@@ -1,6 +1,5 @@
-{#<div class="row" id="comment">#}
+<hr/>
 <div class="col-md-12" id="comment-append">
-    <hr/>
     {% for c in comments %}
         <div class="comment">
             <div class="row">
@@ -34,7 +33,7 @@
                                 </div>
                             {% endif %}
                             {{ c.content }}
-                            <div class="comment-reply-input"  id="comment-reply-input-{{ c.id }}">
+                            <div class="comment-reply-input" id="comment-reply-input-{{ c.id }}">
                                 <div class="row margin-top-1">
                                     <div class="col-md-12">
                                         <textarea rows="1" class="form-control comment-reply-text"></textarea>
@@ -42,7 +41,9 @@
                                 </div>
                                 <div class="row margin-top-1">
                                     <div class="col-md-12">
-                                        <button class="btn btn-primary float-right comment-reply-btn" id="{{ c.id }}">回复</button>
+                                        <button class="btn btn-primary float-right comment-reply-btn" id="{{ c.id }}">
+                                            回复
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -84,4 +85,3 @@
     </div>
 
 </div>
-{#</div>#}

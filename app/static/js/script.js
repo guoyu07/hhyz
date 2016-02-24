@@ -56,15 +56,15 @@ $(function () {
     $('#collect_a').click(function () {
 
     });
-    function add_comment(content,parent_id){
+    function add_comment(content, parent_id, callback) {
         var post_id = $('#post_id').val()
         if (content == '') {
             $('.comment-warnning').show()
             return;
         }
-        $.post('/api/add_comment', {content: content, post_id: post_id,parent_id:parent_id}, function (data) {
+        $.post('/api/add_comment', {content: content, post_id: post_id, parent_id: parent_id}, function (data) {
             if (data['state'] == 'success') {
-                $('#comment-append').append('<div class="comment"><div class="row">\
+                $('#comment-append').prepend('<div class="comment"><div class="row">\
                         <div class="col-md-1">\
                             <a href="#" target="_blank">\
                                 <img src="' + data['avatar'] + '" width="70" height="70">\
@@ -88,12 +88,14 @@ $(function () {
                         </div>\
                     </div><hr/></div>')
                 $('#comment-content').val('')
+                callback()
             }
             else {
 
             }
         }, 'json')
     }
+
     $('#comment-add-btn').click(function () {
         var content = $('#comment-content').val()
         add_comment(content)
@@ -123,18 +125,37 @@ $(function () {
         }).css('cursor', 'pointer');
         $('.comment-reply-input').hide()
         $('.comment-reply-btn').click(function () {
-            //$(this).parent().parent().parent().parent().children('.comment-reply-input').show()
-            id=$(this).attr('id')
-            reply=$('#comment-reply-input-'+id)
+            if ($('#username').val() == '') {
+                $('#myModal').modal()
+                return
+            }
+            id = $(this).attr('id')
+            reply = $('#comment-reply-input-' + id)
             reply.show()
-        }).css('cursor','pointer')
+        }).css('cursor', 'pointer')
         $('.comment-reply-btn').click(function () {
-            id=$(this).attr('id')
-            content=$('#comment-reply-input-'+id).find('.comment-reply-text').val()
-            add_comment(content,parent_id=id)
+            id = $(this).attr('id')
+            text = $('#comment-reply-input-' + id).find('.comment-reply-text')
+            content = text.val()
+            reply = $('#comment-reply-input-' + id)
+            add_comment(content, parent_id = id, function () {
+                text.val('')
+                reply.hide()
+            });
         })
     }
-    bindComment()
 
+    bindComment()
+    $('#comment-content').focus(function () {
+        if ($('#username').val() == '') {
+            $('#myModal').modal()
+        }
+    })
+    $('.collect_a').click(function () {
+        if ($('#username').val() == '') {
+            $('#myModal').modal()
+            return
+        }
+    }).css('cursor', 'pointer');
 
 });

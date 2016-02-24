@@ -39,3 +39,6 @@ def search():
     posts=pagination.items
     return render_template('index.html',pagination=pagination,posts=posts,is_search=True,keywords=keywords)
 
+@main.route('/tags')
+def tags():
+    pass

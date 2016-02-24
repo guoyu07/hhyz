@@ -54,9 +54,10 @@
                                     <div class="col-md-12 post-info">
                                         <span class="tag-from tag">来自:{{ post.from_name }}</span>
                                         <div class="tag-tag tag">标签:{{ date }}
-                                            <a href="#" target="_blank" class="post-label">标签</a>
-                                            <a href="#" target="_blank" class="post-label">标签</a>
-                                            <a href="#" target="_blank" class="post-label">标签</a>
+                                            {% for t in post.tags %}
+                                                <a href="{{ url_for('main.tags',tag=t.name) }}" target="_blank"
+                                                   class="post-label">{{ t.name }}</a>
+                                            {% endfor %}
                                         </div>
                                         <span class="tag-time tag">{{ post.timestamp|format_date }}</span>
                                     </div>
