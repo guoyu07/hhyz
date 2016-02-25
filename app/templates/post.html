@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}{{ '' }}{% endblock %}
+{% block title %}{{ '好货驿站-'+post.title+post.special_title }}{% endblock %}
 {% block left %}
     <div class="col-md-8">
         <div class="row">
@@ -16,7 +16,7 @@
                     {% for t in post.tags %}
                         <a href="{{ url_for('main.tags',tag=t.name) }}" target="_blank">{{ t.name }}</a>
                         {% if not loop.last %}
-                        ,
+                            ,
                         {% endif %}
                     {% endfor %}
                 </div>
@@ -47,6 +47,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <img height="70" width="70" src="{% if current_user.is_authenticated %}
+
                                         {{ current_user.avatar }}{% else %}{{ url_for('static',filename='img/default_avatar.png') }} {% endif %}"/>
                                 </div>
                             </div>

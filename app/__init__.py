@@ -4,6 +4,7 @@ from flask.ext.mail import Mail
 from flask.ext.login import LoginManager
 from flask.ext.pagedown import PageDown
 from flask.ext.bootstrap import Bootstrap
+from .filter import format_date,slug
 from config import config
 
 db=SQLAlchemy()
@@ -32,5 +33,8 @@ def create_app(config_name):
 
     from main import main as main_blueprint
     app.register_blueprint(main_blueprint)
+
+    app.jinja_env.filters['format_date']=format_date
+    app.jinja_env.filters['slug']=slug
     return app
 

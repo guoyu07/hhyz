@@ -14,7 +14,7 @@
                         <div class="col-md-3 col-md-offset-2">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <img src="avatar.png" width="200" height="200">
+                                    <img src="{{ current_user.avatar }}" width="200" height="200">
                                 </div>
                             </div>
                             <div class="row margin-top-2">
@@ -29,15 +29,7 @@
                                     <label class="info-lable">昵称:</label>
                                 </div>
                                 <div class="col-md-5">
-                                    <input class=" form-control input-sm"/>
-                                </div>
-                            </div>
-                            <div class="row margin-top-1">
-                                <div class="col-md-3">
-                                    <label class="info-lable">邮箱:</label>
-                                </div>
-                                <div class="col-md-5">
-                                    <input class=" form-control input-sm"/>
+                                    {{ form.name(placeholder='昵称',class=" form-control input-sm") }}
                                 </div>
                             </div>
                             <div class="row margin-top-1">
@@ -45,7 +37,7 @@
                                     <label class="info-lable">电话:</label>
                                 </div>
                                 <div class="col-md-5">
-                                    <input class=" form-control input-sm"/>
+                                    {{ form.phone(placeholder='电话',class=" form-control input-sm") }}
                                 </div>
                             </div>
                             <div class="row margin-top-1">
@@ -53,7 +45,7 @@
                                     <label class="info-lable">性别:</label>
                                 </div>
                                 <div class="col-md-5">
-                                    <input class=" form-control input-sm"/>
+                                    {{ form.gender(class=" form-control input-sm",placeholder='性别') }}
                                 </div>
                             </div>
                             <div class="row margin-top-1">
@@ -61,7 +53,7 @@
                                     <label class="info-lable">年龄:</label>
                                 </div>
                                 <div class="col-md-5">
-                                    <input class=" form-control input-sm"/>
+                                    {{ form.age(class=" form-control input-sm",placeholder='年龄') }}
                                 </div>
                             </div>
                             <div class="row margin-top-1">
@@ -69,15 +61,15 @@
                                     <label class="info-lable">关于我:</label>
                                 </div>
                                 <div class="col-md-8">
-                                    <textarea class="form-control" rows="4"></textarea>
+                                    {{ form.about_me(placeholder='关于我',class="form-control") }}
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="row margin-top-3">
-                    <div class="col-md-12 margin-top-2">
-                        <button class="btn btn-primary center-h">保存信息</button>
+                    <div class="col-md-12 margin-top-3">
+                        {{ form.submit(class="btn btn-primary center-h") }}
                     </div>
                 </div>
             </div>

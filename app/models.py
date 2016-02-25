@@ -24,13 +24,13 @@ class User(db.Model,UserMixin):
     password_hash=db.Column(db.String(128))#密码的哈希
     permission=db.Column(db.Integer,default=Permission.COMMENT)#用户的权限
     role_id=db.Column(db.Integer,db.ForeignKey('roles.id'))#角色ID
-    name=db.Column(db.String(64))#昵称
-    phone=db.Column(db.String(13))#电话
+    name=db.Column(db.String(64),default='')#昵称
+    phone=db.Column(db.String(13),default='')#电话
     gender=db.Column(db.Integer,default=1)#性别
-    age=db.Column(db.Integer)#年龄
-    confirmed=db.Column(db.Integer)#是否激活
-    about_me=db.String(db.Text)#个人说明
-    avatar=db.Column(db.String(255))#头像路径
+    age=db.Column(db.String(4),default='保密')#年龄
+    confirmed=db.Column(db.Integer,default=0)#是否激活
+    about_me=db.Column(db.Text,default='')#个人说明
+    avatar=db.Column(db.String(255),default='')#头像路径
     member_since=db.Column(db.DateTime,default=datetime.now)#注册时间
     last_seen=db.Column(db.DateTime,default=datetime.now,onupdate=datetime.now)#最后登录时间
     collects=db.relationship('Post',secondary=UserPost,backref=db.backref('users', lazy='dynamic'))#收藏
@@ -74,7 +74,7 @@ class Role(db.Model):
     name = db.Column(db.String(64), unique=True)#角色名称
     default = db.Column(db.Boolean, default=False, index=True)#是否是默认角色
     permissions = db.Column(db.Integer)#权限
-    users = db.relationship('User', backref='role', lazy='dynamic')#持有该角色的用户
+    users = db.relationship('User', backref='role')#持有该角色的用户
 
     @staticmethod
     def insert_roles():
@@ -134,7 +134,7 @@ class Post(db.Model):
     from_name=db.Column(db.String(64))#来自网站
     from_url=db.Column(db.String(255))#来自网址
     store=db.Column(db.String(64))#商城
-    classification=db.relationship('Classification',uselist=False)#小分类
+    classification=db.relationship('Classification',uselist=False,backref=db.backref('posts',lazy='dynamic'))#小分类
     classification_id=db.Column(db.Integer,db.ForeignKey('classification.id'))
     query_class=PostQuery#设置基础查询器
 
@@ -174,7 +174,7 @@ class Classification(db.Model):
     __tablename__='classification'
     id=db.Column(db.Integer,primary_key=True)
     name=db.Column(db.String(255),unique=True)
-    parent=db.relationship('Classification',uselist=False)
+    parent=db.relationship('Classification',uselist=False,remote_side=[id])
     parent_id=db.Column(db.Integer,db.ForeignKey('classification.id'))
     def __init__(self,*args,**kwargs):
         super(Classification,self).__init__(*args,**kwargs)

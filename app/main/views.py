@@ -1,7 +1,7 @@
 # encoding=utf-8
 from flask import request,url_for,render_template,current_app,redirect
 from . import main
-from ..models import Post,Comment
+from ..models import Post,Comment,Tag,Classification
 #处理主页的请求
 @main.route('/',methods=['GET', 'POST'])
 def index():
@@ -22,15 +22,13 @@ def post(id):
     comments=pagination.items
     print comments[0].parent
     return render_template('post.html',post=post,pagination=pagination,comments=comments)
-@main.route('/info')
-def info():
-    return render_template('edit_info.html')
 
 #站内查询请求
 @main.route('/search',methods=['GET', 'POST'])
 def search():
     keywords=request.args.get('keywords')
-    if keywords==None:
+    print keywords
+    if not keywords:
        return redirect(url_for('main.index'))
     page=request.args.get('page',1,type=int)
     query=Post.query.search(keywords)
@@ -41,4 +39,23 @@ def search():
 
 @main.route('/tags')
 def tags():
-    pass
+    name=request.values.get('tag')
+    page=request.values.get('page',1,type=int)
+    if not name or name=='':
+        return redirect(url_for('main.index'))
+    pagination=Tag.query.filter_by(name=name).first().posts.paginate(page
+                        ,per_page=current_app.config['HHYZ_POSTS_PER_PAGE'],error_out=False)
+    posts=pagination.items
+    return render_template('index.html',posts=posts,pagination=pagination,tag=name)
+
+@main.route('/classification')
+def classification():
+    c=request.values.get('c')
+    page=request.values.get('page',1,type=int)
+    if not c:
+        return redirect(url_for('main.index'))
+    pagination=Classification.query.filter_by(name=c).first().posts.\
+        paginate(page,per_page=current_app.config['HHYZ_POSTS_PER_PAGE'],error_out=False)
+    posts=pagination.items
+    return render_template('index.html',posts=posts,pagination=pagination,classification=c)
+

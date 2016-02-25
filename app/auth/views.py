@@ -6,7 +6,7 @@ from . import auth
 from code import AuthCode
 from flask import render_template,request,url_for,flash,redirect,Response,session,send_file,jsonify
 from flask.ext.login import login_required,login_user,logout_user
-from forms import RegisterForm,LoginForm
+from forms import RegisterForm,LoginForm,InfoForm
 from ..models import User
 from ..email import send_email
 @auth.route('/login',methods=['GET','POST'])
@@ -36,7 +36,8 @@ def register():
     if request.method=='POST' and form.validate_on_submit():
         user=User(email=form.email.data,
                   username=form.username.data,
-                  password=form.password.data)
+                  password=form.password.data,
+                  avatar=url_for('static',filename='img/default_avatar.png'))
         db.session.add(user)
         db.session.commit()
         # token=user.generate_confirmation_token()
@@ -56,13 +57,23 @@ def authcode():
     auth_image.save(out_put,format='JPEG')
     out_put.seek(0)
     return send_file(out_put,mimetype='image/png')
-@auth.route('/collect')
-@login_required
-def collect():
-    pass
+
 @auth.route('/info')
 @login_required
 def info():
+    return render_template('auth/info.html')
+
+@auth.route('/edit_info')
+@login_required
+def edit_info():
+    form=InfoForm()
+    if form.validate_on_submit():
+        pass
+    return render_template('auth/edit_info.html',form=form)
+
+
+@auth.route('/collect')
+def collect():
     pass
 @auth.route('/logout')
 @login_required

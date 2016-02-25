@@ -1,4 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="en">
 {% block head %}
     <head>
@@ -11,9 +12,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
         <link href={{ url_for('static',filename='css/stylesheet.css') }} rel="stylesheet">
-        <link rel="shortcut icon" href="img/favicon.ico">
-{#        <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>#}
-    <script src="//cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
+        <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
+        {#        <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>#}
+        <script src="//cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
         <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <script src={{ url_for('static', filename='js/script.js') }}></script>
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
@@ -30,10 +31,11 @@
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-4">
-                    <span class="sr-only">Toggle navigation</span>
-                </button>
-                <a class="navbar-brand" href={{ url_for('main.index') }}>好货驿站</a>
+                <a class="navbar-brand" href={{ url_for('main.index') }}><img style="margin-top: -8px"
+                                                                              src="{{ url_for('static',filename='img/logo.png') }}"
+                                                                              width="38" height="38" alt="logo"/>
+                </a>
+                 <a class="navbar-brand" href={{ url_for('main.index') }}>好货驿站</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -49,9 +51,10 @@
                 <form class="navbar-form navbar-left" target="_blank" action="{{ url_for('main.search') }}"
                       role="search">
                     <div class="input-group">
-                      <input type="text" class="form-control" placeholder="Search...">
+                        <input name="keywords" type="text" class="form-control" placeholder="Search...">
                       <span class="input-group-btn">
-                        <button class="btn btn-default" type="button " style="height: 34px;"><b class="glyphicon glyphicon-search"></b></button>
+                        <button class="btn btn-default" type="button " style="height: 34px;"><b
+                                class="glyphicon glyphicon-search"></b></button>
                       </span>
                     </div><!-- /input-group -->
                 </form>
@@ -117,6 +120,23 @@
 
                         <hr>
                     </div>
+                    {% if classifications %}
+                        <div class="slider">
+                            <h4>分类导航</h4>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {% for c in classifications %}
+                                        <a href="{{ url_for('main.classification',c=c.name) }}" target="_blank">
+                                            <span class="slider-category">{{ c.name }}</span>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+
+                            </div>
+                            <hr>
+                        </div>
+                    {% endif %}
+
                     <div class="slider">
                         <h4>今日更新(476条)</h4>
                         <ul class="list-unstyled">
@@ -162,6 +182,11 @@
     </div>
 {% endblock %}
 <!-- /.container -->
-
+<div class="bottom_tools">
+    <div class="qr_tool">二维码</div>
+    <a id="feedback" href="http://sc.chinaz.com" title="意见反馈">意见反馈</a>
+    <a id="scrollUp" href="javascript:;" title="飞回顶部"></a>
+    <img class="qr_img" src="{{ url_for('static',filename='img/qr_img.png') }}">
+</div>
 </body>
 </html>

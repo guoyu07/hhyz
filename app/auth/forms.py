@@ -1,7 +1,7 @@
 # encoding=utf-8
 
 from flask_wtf import Form
-from wtforms import StringField,PasswordField,BooleanField,SubmitField,ValidationError
+from wtforms import StringField,PasswordField,BooleanField,SubmitField,ValidationError,TextAreaField,FileField
 from wtforms.validators import Length,EqualTo,Email,InputRequired
 from ..models import User
 from flask import session
@@ -38,3 +38,15 @@ class RegisterForm(Form):
     def validate_verification(self,field):
         if session['auth_code'].lower()!=field.data.lower():
             raise ValidationError(message=u'验证码错误')
+
+
+#修改表单
+
+class InfoForm(Form):
+    name=StringField(u'昵称')
+    phone=StringField(u'电话')
+    gender=StringField(u'性别')
+    age=StringField(u'年龄')
+    about_me=TextAreaField(u'关于我')
+    avater=FileField(u'头像')
+    submit=SubmitField(u'保存信息')
