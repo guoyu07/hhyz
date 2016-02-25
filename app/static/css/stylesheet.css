@@ -277,7 +277,12 @@ a:link, a:visited, a:hover {
     border: 1px solid #337ab7;
     z-index: 999;
 }
+.edit-info-btn{
+    max-width: 120px;
+    margin-bottom: 40px;
+    margin-top: 30px;
 
+}
 
 
 

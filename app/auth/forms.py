@@ -9,13 +9,19 @@ from flask import session
 class LoginForm(Form):
     username=StringField(u'用户名',validators=[InputRequired(message=u'用户名不能为空'),Length(6,64,message=u'用户名长度必须在6到64之间')])
     password=PasswordField(u'密码',validators=[InputRequired(message=u'密码不能为空')])
-    verification=StringField(u'验证码',validators=[InputRequired(message=u'验证码不能为空')])
+    verification=StringField(u'验证码')
     remember_me=BooleanField(u'记住登陆')
     submit=SubmitField(u'登陆')
-    # def validate_verification(self,field):
-    #     if session.get('can_show_auth_code') and session['auth_code'].lower()!=field.data.lower():
-    #         print session.get('can_show_auth_code')
-    #         # raise ValidationError(message=u'验证码错误')
+    def validate_verification(self,field):
+        print '------'
+        print session.get('login_error_num')
+        if session.get('login_error_num')>3 and session['auth_code'].lower()!=field.data.lower():
+            raise ValidationError(message=u'验证码错误')
+    def validate_password(self,field):
+        user=User.query.filter_by(username=self.username.data).first()
+        if user is  None or not user.verify_password(field.data):
+            raise ValidationError(message=u'用户名或密码错误')
+
 
 # 注册表单
 class RegisterForm(Form):

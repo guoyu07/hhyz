@@ -13,7 +13,7 @@ $(function () {
 
 
     //插入html元素
-    $.get('/auth/login', {}, function (data) {
+    $.get('/auth/login', {is_request_form:true}, function (data) {
         $('#login_panel').append(data)
         $('#login_auth_code_img').attr('src', '/auth/authcode?nums=' + Math.random())
         $('#login_auth_code_img').click(function () {
@@ -40,6 +40,7 @@ $(function () {
                         $('#login_auth_code_div').show()
                         $('#login_auth_code_img').attr('src', '/auth/authcode?nums=' + Math.random())
                     }
+                    $('#login_info').text(data['info'])
                     $('#login_info').show()
                 }
             }, 'json');

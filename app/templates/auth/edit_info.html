@@ -29,7 +29,7 @@
                                     <label class="info-lable">昵称:</label>
                                 </div>
                                 <div class="col-md-5">
-                                    {{ form.name(placeholder='昵称',class=" form-control input-sm") }}
+                                    {{ form.name(placeholder='昵称',class=" form-control input-sm",value=current_user.name) }}
                                 </div>
                             </div>
                             <div class="row margin-top-1">
@@ -37,7 +37,7 @@
                                     <label class="info-lable">电话:</label>
                                 </div>
                                 <div class="col-md-5">
-                                    {{ form.phone(placeholder='电话',class=" form-control input-sm") }}
+                                    {{ form.phone(placeholder='电话',class=" form-control input-sm",value=current_user.phone) }}
                                 </div>
                             </div>
                             <div class="row margin-top-1">
@@ -45,7 +45,7 @@
                                     <label class="info-lable">性别:</label>
                                 </div>
                                 <div class="col-md-5">
-                                    {{ form.gender(class=" form-control input-sm",placeholder='性别') }}
+                                    {{ form.gender(class=" form-control input-sm",placeholder='性别',value=current_user.gender) }}
                                 </div>
                             </div>
                             <div class="row margin-top-1">
@@ -53,7 +53,7 @@
                                     <label class="info-lable">年龄:</label>
                                 </div>
                                 <div class="col-md-5">
-                                    {{ form.age(class=" form-control input-sm",placeholder='年龄') }}
+                                    {{ form.age(class=" form-control input-sm",placeholder='年龄',value=current_user.age) }}
                                 </div>
                             </div>
                             <div class="row margin-top-1">
@@ -61,15 +61,15 @@
                                     <label class="info-lable">关于我:</label>
                                 </div>
                                 <div class="col-md-8">
-                                    {{ form.about_me(placeholder='关于我',class="form-control") }}
+                                    {{ form.about_me(placeholder='关于我',class="form-control",value=current_user.about_me) }}
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
-                <div class="row margin-top-3">
+                <div class="row">
                     <div class="col-md-12 margin-top-3">
-                        {{ form.submit(class="btn btn-primary center-h") }}
+                        {{ form.submit(class="btn btn-primary btn-lg center-h edit-info-btn") }}
                     </div>
                 </div>
             </div>
