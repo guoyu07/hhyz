@@ -20,16 +20,25 @@ def login():
         user=User.query.filter_by(username=form.username.data).first()
         # if user is not None and user.verify_password(form.password.data):
         login_user(user, form.remember_me.data)
-        return jsonify({'success': True})
+        next=request.values.get('next')
+        return jsonify({'success': True,'next':next})
     else:
         show_auth = False
-        if session.get('login_error_num') > 3:
+        if session.get('login_error_num') > 2:
             show_auth = True
         elif session.get('login_error_num') == None:
             session['login_error_num'] = 1
         else:
             session['login_error_num'] += 1
-        return jsonify({'success': False, 'show_auth': show_auth, 'info': form.errors.values()[0]})
+        error=form.errors.values()[0]
+        if form.errors.has_key('verification'):
+            error=form.errors['verification']
+        return jsonify({'success': False, 'show_auth': show_auth, 'info':error})
+
+@auth.route('/login_view')
+def login_view():
+    form = LoginForm()
+    return render_template('auth/login_view.html',form=form)
 
 
 @auth.route('/register', methods=['GET', 'POST'])

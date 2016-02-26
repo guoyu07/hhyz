@@ -12,7 +12,7 @@ mail=Mail()
 pagedown=PageDown()
 bootstrap=Bootstrap()
 login_manager=LoginManager()
-login_manager.login_view='auth.login'
+login_manager.login_view='auth.login_view'
 login_manager.session_protection='strong'
 
 def create_app(config_name):

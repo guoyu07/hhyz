@@ -13,12 +13,11 @@ class LoginForm(Form):
     remember_me=BooleanField(u'记住登陆')
     submit=SubmitField(u'登陆')
     def validate_verification(self,field):
-        print '------'
-        print session.get('login_error_num')
-        if session.get('login_error_num')>3 and session['auth_code'].lower()!=field.data.lower():
+        if session.get('login_error_num')>2 and session['auth_code'].lower()!=field.data.lower():
             raise ValidationError(message=u'验证码错误')
     def validate_password(self,field):
         user=User.query.filter_by(username=self.username.data).first()
+        print self.username,field.data
         if user is  None or not user.verify_password(field.data):
             raise ValidationError(message=u'用户名或密码错误')
 

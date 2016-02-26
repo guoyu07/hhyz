@@ -108,7 +108,7 @@ a:link, a:visited, a:hover {
     color: #999;
     float: right;
     margin-left: 20px;
-    font-size:12px;
+    font-size: 12px;
 }
 
 .content-img {
@@ -151,9 +151,11 @@ a:link, a:visited, a:hover {
 .center-txt {
     text-align: center;
 }
-.comment-input{
+
+.comment-input {
     margin-top: 50px;
 }
+
 .info-lable {
     text-align: right;
     float: right;
@@ -180,50 +182,60 @@ a:link, a:visited, a:hover {
 .comment-text {
     min-width: 600px;
 }
-.content-username{
+
+.content-username {
     display: block;
     text-align: center;
     margin-top: 10px;
 }
-.comment-warnning{
+
+.comment-warnning {
     color: red;
     margin-left: auto;
     margin-right: auto;
     display: none;
 }
-.comment-title{
+
+.comment-title {
     line-height: 30px;
 }
-.post-info{
+
+.post-info {
     line-height: 25px;
     font-size: 12px;
 }
-.post-label{
-    padding:3px;
+
+.post-label {
+    padding: 3px;
     background: #ffcccc;
     border-radius: 2px;
     color: #7a6475;
 }
-.post-title{
+
+.post-title {
     line-height: 30px;
 }
-.post-head{
-    padding:5px;
+
+.post-head {
+    padding: 5px;
     background: #f5f5f5;
     border-radius: 2px;
     font-size: 14px;
     color: #f04848;
 }
-.post-left{
+
+.post-left {
     width: 25%;
     float: left;
     position: relative;
 }
-.post-right{
-    width:75%;
+
+.post-right {
+    width: 75%;
     float: left;
     position: relative;
 }
+
 .margin-top-1 {
     margin-top: 10px;
 }
@@ -256,8 +268,8 @@ a:link, a:visited, a:hover {
     float: left;
 }
 
-.slider-category{
-        font-size: 12px;
+.slider-category {
+    font-size: 12px;
     display: inline-block;
     float: left;
     width: 33.3%;
@@ -273,31 +285,190 @@ a:link, a:visited, a:hover {
     background-color: white;
     overflow: hidden;
 }
-.slider-category:hover{
+
+.slider-category:hover {
     border: 1px solid #337ab7;
     z-index: 999;
 }
-.edit-info-btn{
+
+.edit-info-btn {
     max-width: 120px;
     margin-bottom: 40px;
     margin-top: 30px;
 
 }
 
+.avatar-img-preview {
+    text-align: center;
+}
+
+.avatar-img-preview-l {
+    margin-top: 60px;
+    margin-left: 50px;
+}
+
+.avatar-img-preview-r {
+    margin-bottom: 140px;
+    margin-left: 30px;
+    margin-right: 50px;
+}
+
+.avatar-img-div {
+    margin: 40px;
+}
+
+.avatar-img-ctrl {
+    text-align: center;
+    padding: 20px;
+}
+
+.avatar-img-btn {
+    float: left;
+    position: relative;
+}
+.avatar-img-btn-l{
+    float: left;
+    width: 100px;
+    margin-left: 220px;
+}
+.avatar-img-btn-r{
+    float: left;
+    width: 100px;
+    margin-left: 20px;
+}
+
+.jcrop-holder #preview-pane {
+    display: block;
+    position: absolute;
+    z-index: 2000;
+    top: 0;
+    right: -200px;
+    padding: 6px;
+    border: 1px rgba(0, 0, 0, .4) solid;
+    border-radius: 6px;
+    background-color: white;
+    box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+}
+
+#preview-pane .preview-container {
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+}
+
+.avatar-now-div {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+}
+
+
+.avatar-img-file {
+    position: absolute;
+    left: -70px;
+    top: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    width: 100px;
+    height: 35px;
+    z-index: 999;
+    margin-left: 290px;
+    cursor: pointer;
+
+}
+/*.avatar-img-file input {*/
+    /*position: absolute;*/
+    /*font-size: 100px;*/
+    /*right: 0;*/
+    /*top: 0;*/
+    /*opacity: 0;*/
+/*}*/
+/*.avatar-img-file:hover {*/
+    /*background: #AADFFD;*/
+    /*border-color: #78C3F3;*/
+    /*color: #004974;*/
+    /*text-decoration: none;*/
+/*}*/
+
 
 
 
 /*回到顶部和二维码*/
-.bottom_tools{position:fixed;z-index:1070;right:40px;bottom:40px;}
-.bottom_tools>*{font:0/0 a;display:block;margin-top:5px;color:transparent;border:0;background-color:transparent;text-shadow:none}
-.qr_img{position:absolute;top:-189px;left:-183px;display:none;}
-#scrollUp{width:45px;height:45px;background-image:url(../img/backgrounds.32.png);background-position:-54px -53px;display:none;}
-#scrollUp:hover{background-image:url(../img/backgrounds.32.png);background-position:-100px -53px}
-#feedback{width:45px;height:45px;background-image:url(../img/backgrounds.32.png);background-position:-102px 0}
-#feedback:hover{background-image:url(../img/backgrounds.32.png);background-position:-146px -46px}
-.qr_tool{width:45px;height:45px;background-image:url(../img/backgrounds.32.png);background-position:-148px 0;cursor:pointer;}
-.qr_tool:hover {width: 45px;height: 45px;background-image: url(../img/backgrounds.32.png);background-position: -192px -46px;}
+.bottom_tools {
+    position: fixed;
+    z-index: 1070;
+    right: 40px;
+    bottom: 40px;
+}
 
-.page-body {padding-top:10px;background: #fff;height:2500px;}
-.page-footer {margin-top:20px;padding-top:10px;background: #444;height:200px;border-top:10px solid #333}
+.bottom_tools > * {
+    font: 0/0 a;
+    display: block;
+    margin-top: 5px;
+    color: transparent;
+    border: 0;
+    background-color: transparent;
+    text-shadow: none
+}
+
+.qr_img {
+    position: absolute;
+    top: -189px;
+    left: -183px;
+    display: none;
+}
+
+#scrollUp {
+    width: 45px;
+    height: 45px;
+    background-image: url(../img/backgrounds.32.png);
+    background-position: -54px -53px;
+    display: none;
+}
+
+#scrollUp:hover {
+    background-image: url(../img/backgrounds.32.png);
+    background-position: -100px -53px
+}
+
+#feedback {
+    width: 45px;
+    height: 45px;
+    background-image: url(../img/backgrounds.32.png);
+    background-position: -102px 0
+}
+
+#feedback:hover {
+    background-image: url(../img/backgrounds.32.png);
+    background-position: -146px -46px
+}
+
+.qr_tool {
+    width: 45px;
+    height: 45px;
+    background-image: url(../img/backgrounds.32.png);
+    background-position: -148px 0;
+    cursor: pointer;
+}
+
+.qr_tool:hover {
+    width: 45px;
+    height: 45px;
+    background-image: url(../img/backgrounds.32.png);
+    background-position: -192px -46px;
+}
+
+.page-body {
+    padding-top: 10px;
+    background: #fff;
+    height: 2500px;
+}
+
+.page-footer {
+    margin-top: 20px;
+    padding-top: 10px;
+    background: #444;
+    height: 200px;
+    border-top: 10px solid #333
+}
 

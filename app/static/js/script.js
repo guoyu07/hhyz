@@ -13,11 +13,11 @@ $(function () {
 
 
     //插入html元素
-    $.get('/auth/login', {is_request_form:true}, function (data) {
+    $.get('/auth/login', {is_request_form: true}, function (data) {
         $('#login_panel').append(data)
-        $('#login_auth_code_img').attr('src', '/auth/authcode?nums=' + Math.random())
-        $('#login_auth_code_img').click(function () {
-            $('#login_auth_code_img').attr('src', '/auth/authcode?nums=' + Math.random())
+        $('.login_auth_code_img').attr('src', '/auth/authcode?nums=' + Math.random())
+        $('.login_auth_code_img').click(function () {
+            $('.login_auth_code_img').attr('src', '/auth/authcode?nums=' + Math.random())
         });
         $('#login_btn').click(function () {
             var username = $('#login_username').val()
@@ -46,6 +46,38 @@ $(function () {
             }, 'json');
         });
     }, 'html')
+
+    $('#login_view_btn').click(function () {
+        var username = $('#login_view_username').val()
+        var password = $('#login_view_password').val()
+        var verification = $('#login_view_verification').val()
+        var remember_me = $('#login_view_remember_me').val()
+        var csrf_token = $('#login_view_csrf_token').val()
+        var next = $('#login_view_next').val()
+        $.post('/auth/login', {
+            'username': username,
+            'password': password,
+            'remrmber_me': remember_me,
+            'verification': verification,
+            'csrf_token': csrf_token,
+            'next': next
+        }, function (data) {
+            if (data['success']) {
+                window.location.replace(data['next'])
+            }
+            else {
+                if (data['show_auth']) {
+                    $('.login_auth_code_div').show()
+                    $('.login_auth_code_img').attr('src', '/auth/authcode?nums=' + Math.random())
+                }
+                $('#login_view_info').text(data['info'])
+                $('#login_view_info').show()
+            }
+        }, 'json');
+
+
+    });
+
 
     $('#register_auth_code').click(function () {
         $('#register_auth_code').attr('src', '/auth/authcode?nums=' + Math.random())
@@ -159,30 +191,101 @@ $(function () {
         }
     }).css('cursor', 'pointer');
 
+
+    //头像
+
+    var jcrop_api,
+        boundx,
+        boundy,
+
+        $preview = $('#preview-pane'),
+        $pcnt = $('#preview-pane .preview-container'),
+        $pimg = $('#preview-pane .preview-container img'),
+
+        xsize = $pcnt.width(),
+        ysize = $pcnt.height();
+
+    var avatar_css
+    var select
+    $('#avatar-img').Jcrop({
+        onChange: updatePreview,
+        onSelect: updatePreview,
+        aspectRatio: xsize / ysize
+    }, function () {
+        // Use the API to get the real image size
+        var bounds = this.getBounds();
+        boundx = bounds[0];
+        boundy = bounds[1];
+        // Store the API in the jcrop_api variable
+        jcrop_api = this;
+
+        // Move the preview into the jcrop container for css positioning
+        $preview.appendTo(jcrop_api.ui.holder);
+    });
+
+    function updatePreview(c) {
+        if (parseInt(c.w) > 0) {
+            var rx = xsize / c.w;
+            var ry = ysize / c.h;
+
+            var ax = 200 / c.w
+            var ay = 200 / c.h
+
+            avatar_css = {
+                width: Math.round(ax * boundx) + 'px',
+                height: Math.round(ay * boundy) + 'px',
+                marginLeft: '-' + Math.round(ax * c.x) + 'px',
+                marginTop: '-' + Math.round(ay * c.y) + 'px'
+            }
+
+            $pimg.css({
+                width: Math.round(rx * boundx) + 'px',
+                height: Math.round(ry * boundy) + 'px',
+                marginLeft: '-' + Math.round(rx * c.x) + 'px',
+                marginTop: '-' + Math.round(ry * c.y) + 'px'
+            });
+        }
+    };
+
+    $('#avatar-btn-save').click(function () {
+        $('#avatar-img-now').css(avatar_css)
+        $('#avatart-modal').modal('hide')
+        select = jcrop_api.tellSelect()
+    })
+
+    //$('.avatar-img-file').change(function () {
+    //    alert($(this).val())
+    //    $('#avatar-img').attr('src', $(this).val())
+    //});
+
+
+
+
     //回到顶部和二维码
-    $(function(){
-	var $body = $(document.body);;
-	var $bottomTools = $('.bottom_tools');
-	var $qrTools = $('.qr_tool');
-	var qrImg = $('.qr_img');
-		$(window).scroll(function () {
-			var scrollHeight = $(document).height();
-			var scrollTop = $(window).scrollTop();
-			var $footerHeight = $('.page-footer').outerHeight(true);
-			var $windowHeight = $(window).innerHeight();
-			scrollTop > 50 ? $("#scrollUp").fadeIn(200).css("display","block") : $("#scrollUp").fadeOut(200);
-			$bottomTools.css("bottom", scrollHeight - scrollTop - $footerHeight > $windowHeight ? 40 : $windowHeight + scrollTop + $footerHeight + 40 - scrollHeight);
-		});
-		$('#scrollUp').click(function (e) {
-			e.preventDefault();
-			$('html,body').animate({ scrollTop:0});
-		});
-		$qrTools.hover(function () {
-			qrImg.fadeIn();
-		}, function(){
-			 qrImg.fadeOut();
-		});
-});
+    $(function () {
+        var $body = $(document.body);
+        ;
+        var $bottomTools = $('.bottom_tools');
+        var $qrTools = $('.qr_tool');
+        var qrImg = $('.qr_img');
+        $(window).scroll(function () {
+            var scrollHeight = $(document).height();
+            var scrollTop = $(window).scrollTop();
+            var $footerHeight = $('.page-footer').outerHeight(true);
+            var $windowHeight = $(window).innerHeight();
+            scrollTop > 50 ? $("#scrollUp").fadeIn(200).css("display", "block") : $("#scrollUp").fadeOut(200);
+            $bottomTools.css("bottom", scrollHeight - scrollTop - $footerHeight > $windowHeight ? 40 : $windowHeight + scrollTop + $footerHeight + 40 - scrollHeight);
+        });
+        $('#scrollUp').click(function (e) {
+            e.preventDefault();
+            $('html,body').animate({scrollTop: 0});
+        });
+        $qrTools.hover(function () {
+            qrImg.fadeIn();
+        }, function () {
+            qrImg.fadeOut();
+        });
+    });
 
 
 });

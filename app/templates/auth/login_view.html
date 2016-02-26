@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as tools %}
+{% block title %}好货驿站--登陆{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>登陆</h3>
+                        <hr>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="hidden" name="next" id="login_view_next" value="{{ request.values.get('next') }}"/>
+                        {{ form.csrf_token(id='login_view_csrf_token') }}
+                        <div class="row margin-top-2">
+                            <div class="col-md-3 col-md-offset-4">
+                                {{ form.username(placeholder="用户名",id='login_view_username',class='form-control input-sm register-content') }}
+                            </div>
+                            <div class="col-md-2"><label class="register-tag">不能为空</label></div>
+                        </div>
+                        <div class="row margin-top-2">
+                            <div class="col-md-3 col-md-offset-4">
+                                {{ form.password(placeholder="密码",id='login_view_password',class='form-control input-sm register-content') }}
+                            </div>
+                            <div class="col-md-2"><label class="register-tag">不能为空</label></div>
+                        </div>
+                        <div class="row margin-top-2" id=""
+                             {% if session.get('login_error_num')<=2 %}style="display:none" {% endif %}>
+                            <div class="col-md-1 col-md-offset-4">
+                                {{ form.verification(class="form-control input-sm",placeholder="验证码",id="login_view_verification") }}
+                            </div>
+                            <div class="col-md-1 login_auth_code_div">
+                                <img width="80" height="30"
+                                     class="login_auth_code_img" src="/auth/authcode"/>
+                            </div>
+                            <div class="col-md-2">
+                                <span class="center-txt" style="line-height: 32px">点击更换</span>
+                            </div>
+                        </div>
+                        <div class="row margin-top-2">
+                            <div class="col-md-3 col-md-offset-4">
+                                {{ form.remember_me(class='register-content custom-checkbox',id='login_view_remember_checkbox') }}
+                                <label for="remember_checkbox">记住登陆</label>
+
+                            </div>
+                            <div class="col-md-2"><label class="register-tag">不能为空</label></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-11">
+                                <div class=" center-txt" id="login_view_info_div">
+                                    <span id="login_view_info" class="register-tag center-txt"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row margin-top-3">
+                            <div class="col-md-11">
+                                {{ form.submit(value='登陆',id='login_view_btn', class="btn btn-primary btn-group-lg center-h" ) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
