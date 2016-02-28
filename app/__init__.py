@@ -2,15 +2,11 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.mail import Mail
 from flask.ext.login import LoginManager
-from flask.ext.pagedown import PageDown
-from flask.ext.bootstrap import Bootstrap
 from .filter import format_date,slug,is_collect
 from config import config
 
 db=SQLAlchemy()
 mail=Mail()
-pagedown=PageDown()
-bootstrap=Bootstrap()
 login_manager=LoginManager()
 login_manager.login_view='auth.login_view'
 login_manager.session_protection='strong'
@@ -21,8 +17,6 @@ def create_app(config_name):
     config[config_name].init_app(app)
 
     mail.init_app(app)
-    pagedown.init_app(app)
-    bootstrap.init_app(app)
     login_manager.init_app(app)
     db.init_app(app)
     from api import api as api_blueprint
