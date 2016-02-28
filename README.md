@@ -1,7 +1,7 @@
 # This is a shopping information website
 
 Based on the flask web framework
-this is  [http://haohuoyizhan.com](website),welcome to visit this website
+this is  [http://haohuoyizhan.com](http://haohuoyizhan.com),welcome to visit this website
 
 Requirements:
 
