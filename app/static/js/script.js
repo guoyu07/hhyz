@@ -86,9 +86,6 @@ $(function () {
     //$(function () {
     //    $('[data-toggle="popover"]').popover()
     //})
-    $('#collect_a').click(function () {
-
-    });
     function add_comment(content, parent_id, callback) {
         var post_id = $('#post_id').val()
         if (content == '') {
@@ -189,8 +186,43 @@ $(function () {
             $('#myModal').modal()
             return
         }
-    }).css('cursor', 'pointer');
-
+        var id = $(this).parent().attr('id')
+        var a = $(this)
+        $.post('/api/collect', {id: id}, function (data) {
+            if (data['state']) {
+                var collects = $.cookie('collects')
+                if (collects != null && collects != '') {
+                    collects += ' '
+                    collects += id
+                }
+                else
+                    collects = id
+                $.cookie('collects', collects, {expires: 7})
+                a.find('i').attr('class', 'glyphicon glyphicon-star margin-left-3')
+                a.find('span').text(data['count'])
+            }
+        }, 'json');
+    }).css('cursor', 'pointer')
+    $('.collect-ctrl').click(function () {
+        var id = $(this).attr('id')
+        var self=$(this)
+        if ($(this).text()=='删除收藏') {
+            $.post('/api/del_collect', {id: id}, function (data) {
+                if (data['state']) {
+                    self.text('重新收藏')
+                    self.css('color','dodgerblue')
+                }
+            }, 'json')
+        }
+        else {
+            $.post('/api/collect', {id: id}, function (data) {
+                if (data['state']) {
+                    self.text('删除收藏')
+                    self.css('color','orangered')
+                }
+            }, 'json')
+        }
+    });
 
     //头像
 
@@ -206,7 +238,7 @@ $(function () {
         ysize = $pcnt.height();
 
     var avatar_css
-    var select
+    //var select
     $('#avatar-img').Jcrop({
         onChange: updatePreview,
         onSelect: updatePreview,
@@ -250,15 +282,30 @@ $(function () {
     $('#avatar-btn-save').click(function () {
         $('#avatar-img-now').css(avatar_css)
         $('#avatart-modal').modal('hide')
+        $('#avatar-img-now').attr('src', $('.jcrop-preview').attr('src'))
         select = jcrop_api.tellSelect()
+        $('#is_update_avatar').val(true)
+        $('#select_x').val(select.x)
+        $('#select_y').val(select.y)
+        $('#select_x2').val(select.x2)
+        $('#select_y2').val(select.y2)
     })
-
-    //$('.avatar-img-file').change(function () {
-    //    alert($(this).val())
-    //    $('#avatar-img').attr('src', $(this).val())
-    //});
-
-
+    //上传头像
+    $(function () {
+        'use strict';
+        // Change this to the location of your server-side upload handler:
+        var url = window.location.hostname === 'blueimp.github.io' ?
+            '//jquery-file-upload.appspot.com/' : 'server/php/';
+        $('.avatar-img-file').fileupload({
+            url: '/auth/avatar_upload',
+            dataType: 'json',
+            done: function (e, data) {
+                jcrop_api.setImage(data.result['url'])
+                $('.jcrop-preview').attr('src', data.result['url'])
+            },
+        }).prop('disabled', !$.support.fileInput)
+            .parent().addClass($.support.fileInput ? undefined : 'disabled');
+    });
 
 
     //回到顶部和二维码
@@ -286,6 +333,4 @@ $(function () {
             qrImg.fadeOut();
         });
     });
-
-
 });

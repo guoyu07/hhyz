@@ -15,7 +15,8 @@ class Config:
     HHYZ_MAIL_SENDER = 'Flasky Admin <flasky@example.com>'
     HHYZ_ADMIN = os.environ.get('FLASKY_ADMIN')
     HHYZ_POSTS_PER_PAGE = 15
-    HHYZ_COMMENTS_PER_PAGE =10
+    HHYZ_COMMENTS_PER_PAGE =20
+    HHYZ_USERS_PER_PAGE =20
     HHYZ_SLOW_DB_QUERY_TIME=0.5
 
     @staticmethod

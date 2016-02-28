@@ -17,3 +17,13 @@ def slug(content):
         res=res[:100]
         res+=u'...'
     return res
+def is_collect(request,id):
+    s=request.cookies.get('collects')
+    if not s:
+        return 'glyphicon-star-empty'
+    id=str(id)
+    collects=s.split('%20')
+    for c in collects:
+        if id==c:
+            return 'glyphicon-star'
+    return 'glyphicon-star-empty'

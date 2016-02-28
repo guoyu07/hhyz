@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import request,url_for,jsonify,render_template
 from flask.ext.login import login_required,current_user,current_app
 from .. import db
-from ..models import Comment,Post,User
+from ..models import Comment,Post,User,UserPost
 from . import api
 
 @api.route('/add_comment',methods=['GET','POST'])
@@ -46,6 +46,19 @@ def get_comments():
     comments=pagination.items
     return render_template('comment.html',pagination=pagination,comments=comments)
 
-@api.route('/collect')
+@api.route('/collect',methods=['GET','POST'])
+@login_required
 def collect():
-    pass
+    id=request.values.get('id')
+    post=Post.query.filter_by(id=id).first()
+    if not current_user.collects.filter_by(id=id).first():
+        current_user.collects.append(post)
+        db.session.commit()
+    return jsonify({'state':True,'count':post.users.count()})
+@api.route('/del_collect',methods=['GET','POST'])
+def del_collect():
+    id=request.values.get('id')
+    post=Post.query.filter_by(id=id).first()
+    current_user.collects.remove(post)
+    db.session.commit()
+    return jsonify({'state':True})

@@ -113,7 +113,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-12" id="{{ post.id }}">
                                         <i class="glyphicon glyphicon-thumbs-up" style="padding-top: 7px"></i>
                                         <sp class=" tag-font">{{ post.up }}</sp>
                                         <i class="glyphicon glyphicon-thumbs-down margin-left-3"></i><span
@@ -122,9 +122,9 @@
                                                 class="glyphicon glyphicon-comment margin-left-3"></i><span
                                                 class=" tag-font">{{ post.comment_num }}</span></a>
                                         <a target="_blank" class="collect_a">
-                                            <i class="glyphicon glyphicon-star-empty margin-left-3"
+                                            <i class="glyphicon {{ request|is_collect(post.id) }} margin-left-3"
                                                style="color: #34495e"></i>
-                                            <span class=" tag-font">{{ post.collect }}</span>
+                                            <span class=" tag-font">{{ post.users.count() }}</span>
                                         </a>
                                         <a target="_blank" href={{ url_for('main.post',id=post.id) }} class="btn
                                            btn-primary

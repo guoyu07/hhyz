@@ -33,7 +33,7 @@ class User(db.Model,UserMixin):
     avatar=db.Column(db.String(255),default='')#头像路径
     member_since=db.Column(db.DateTime,default=datetime.now)#注册时间
     last_seen=db.Column(db.DateTime,default=datetime.now,onupdate=datetime.now)#最后登录时间
-    collects=db.relationship('Post',secondary=UserPost,backref=db.backref('users', lazy='dynamic'))#收藏
+    collects=db.relationship('Post',secondary=UserPost,lazy='dynamic',backref=db.backref('users', lazy='dynamic'))#收藏
     comments=db.relationship('Comment',lazy='dynamic')#评论
     disabled=db.Column(db.Boolean,default=False)#状态不可用
 
@@ -47,19 +47,9 @@ class User(db.Model,UserMixin):
     #进行密码核对
     def verify_password(self,password):
         return check_password_hash(self.password_hash,password)
-    # 生成token进行激活
-    def generate_confirmation_token(self):
-        pass
     def __init__(self,*args,**kwargs):
         super(User,self).__init__(*args,**kwargs)
 
-
-    # def is_authenticated(self):
-    #     pass
-    # def is_active(self):
-    #     pass
-    # def get_id(self):
-    #     pass
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -160,7 +150,7 @@ class Comment(db.Model):
     up=db.Column(db.Integer,default=0)#顶的数量
     down=db.Column(db.Integer,default=0)#踩的数量
     disabled=db.Column(db.Boolean,default=False)#状态不可用
-    parent=db.relationship('Comment',uselist=False,remote_side=[id])
+    parent=db.relationship('Comment',uselist=False,remote_side=[id],cascade='delete')
     user=db.relationship('User',uselist=False)
     parent_id=db.Column(db.Integer,db.ForeignKey('comments.id'))
     post_id=db.Column(db.Integer,db.ForeignKey('posts.id'))
@@ -192,8 +182,12 @@ class Classification(db.Model):
                 db.session.add(c)
         db.session.commit()
 
-
-
+#头像缓存文件
+class TempAvatar(db.Model):
+    __tablename__='temp_avatar'
+    id=db.Column(db.Integer,primary_key=True)
+    path=db.Column(db.String(255),unique=True)
+    timestamp=db.Column(db.DateTime,default=datetime.now)
 
 
 
