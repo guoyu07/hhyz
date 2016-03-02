@@ -5,7 +5,7 @@ from qiniu import Auth, put_data
 from PIL import Image
 from io import BytesIO
 
-q=''#qiniu
+q=Auth('','')#qiniu
 baseurl = 'http://7xqubs.com1.z0.glb.clouddn.com'
 token = q.upload_token('hhyz')
 

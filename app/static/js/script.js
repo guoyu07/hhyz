@@ -205,12 +205,12 @@ $(function () {
     }).css('cursor', 'pointer')
     $('.collect-ctrl').click(function () {
         var id = $(this).attr('id')
-        var self=$(this)
-        if ($(this).text()=='删除收藏') {
+        var self = $(this)
+        if ($(this).text() == '删除收藏') {
             $.post('/api/del_collect', {id: id}, function (data) {
                 if (data['state']) {
                     self.text('重新收藏')
-                    self.css('color','dodgerblue')
+                    self.css('color', 'dodgerblue')
                 }
             }, 'json')
         }
@@ -218,7 +218,7 @@ $(function () {
             $.post('/api/collect', {id: id}, function (data) {
                 if (data['state']) {
                     self.text('删除收藏')
-                    self.css('color','orangered')
+                    self.css('color', 'orangered')
                 }
             }, 'json')
         }
@@ -290,22 +290,6 @@ $(function () {
         $('#select_x2').val(select.x2)
         $('#select_y2').val(select.y2)
     })
-    //上传头像
-    $(function () {
-        'use strict';
-        // Change this to the location of your server-side upload handler:
-        var url = window.location.hostname === 'blueimp.github.io' ?
-            '//jquery-file-upload.appspot.com/' : 'server/php/';
-        $('.avatar-img-file').fileupload({
-            url: '/auth/avatar_upload',
-            dataType: 'json',
-            done: function (e, data) {
-                jcrop_api.setImage(data.result['url'])
-                $('.jcrop-preview').attr('src', data.result['url'])
-            },
-        }).prop('disabled', !$.support.fileInput)
-            .parent().addClass($.support.fileInput ? undefined : 'disabled');
-    });
 
 
     //回到顶部和二维码
@@ -333,4 +317,22 @@ $(function () {
             qrImg.fadeOut();
         });
     });
+});
+
+
+//上传头像
+$(function () {
+    'use strict';
+    // Change this to the location of your server-side upload handler:
+    var url = window.location.hostname === 'blueimp.github.io' ?
+        '//jquery-file-upload.appspot.com/' : 'server/php/';
+    $('.avatar-img-file').fileupload({
+        url: '/auth/avatar_upload',
+        dataType: 'json',
+        done: function (e, data) {
+            jcrop_api.setImage(data.result['url'])
+            $('.jcrop-preview').attr('src', data.result['url'])
+        },
+    }).prop('disabled', !$.support.fileInput)
+        .parent().addClass($.support.fileInput ? undefined : 'disabled');
 });
